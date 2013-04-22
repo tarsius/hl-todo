@@ -1,5 +1,4 @@
-;; * hl-todo.el --- highlight TODO keywords in comments
-;; ** :
+;;; hl-todo.el --- highlight TODO keywords in comments
 
 ;; Copyright (C) 2013  Jonas Bernoulli
 
@@ -10,8 +9,6 @@
 ;; Keywords: convenience
 
 ;; This file is not part of GNU Emacs.
-
-;; ** License:
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -26,13 +23,13 @@
 ;; For a full copy of the GNU General Public License
 ;; see <http://www.gnu.org/licenses/>.
 
-;; ** Commentary:
+;;; Commentary:
 
 ;; Hightlight TODO keywords in comments.  There are many minor modes
 ;; like it but this one is mine.  It also happens to be simpler than
 ;; the alternatives.  For now; I might extend it.
 
-;; * Code:
+;;; Code:
 
 (require 'org-faces)
 
@@ -85,10 +82,8 @@
     (font-lock-remove-keywords nil hl-todo-keywords))
   (font-lock-fontify-buffer))
 
-;; * :
 (provide 'hl-todo)
 ;; Local Variables:
 ;; indent-tabs-mode: nil
-;; eval: (when (featurep 'outshine) (outline-minor-mode 1))
 ;; End:
-
+;;; hl-todo.el ends here
