@@ -31,7 +31,6 @@
 
 ;;; Code:
 
-(require 'org-faces)
 
 (defgroup hl-todo nil
   "Highlight TODO keywords in comments."
