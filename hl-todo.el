@@ -4,7 +4,7 @@
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20130310
-;; Version: 1.0.0
+;; Version: 1.1.0
 ;; Homepage: http://github.com/tarsius/hl-todo
 ;; Keywords: convenience
 
