@@ -27,10 +27,20 @@
 
 ;; Hightlight TODO keywords in comments.  There are many minor modes
 ;; like it but this one is mine.  It also happens to be simpler than
-;; the alternatives.  For now; I might extend it.
+;; the alternatives.
+
+;; For now at least -- I might extend it.  Or I might abandon it in
+;; favor of one of the following -- so you might be better of going
+;; straight for one of these.
+
+;; - [[http://emacswiki.org/fic-ext-mode.el][fic-ext-mode]
+;; - [[https://github.com/lewang/fic-mode][fic-mode]]
+;; - [[http://emacswiki.org/FixmeMode][fixme-mode]]
+;; - [[https://github.com/rolandwalker/fixmee][fixmee]]
+
+;; Also see http://emacswiki.org/FixmeMode.
 
 ;;; Code:
-
 
 (defgroup hl-todo nil
   "Highlight TODO keywords in comments."
