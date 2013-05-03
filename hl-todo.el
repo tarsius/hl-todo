@@ -94,10 +94,6 @@
     (font-lock-remove-keywords nil hl-todo-keywords))
   (font-lock-fontify-buffer))
 
-(defun turn-on-hl-todo-mode ()
-  "Unconditionally turn on `hl-todo-mode'."
-  (hl-todo-mode 1))
-
 (provide 'hl-todo)
 ;; Local Variables:
 ;; indent-tabs-mode: nil
