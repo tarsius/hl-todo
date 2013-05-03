@@ -63,7 +63,10 @@
     ("DONT" . "#5f7f5f")
     ("FAIL" . "#8c5353")
     ("DONE" . "#afd8af")
-    ("FIXME" . "#cc9393"))
+    ("FIXME" . "#cc9393")
+    ("XXX"   . "#cc9393")
+    ("XXXX"  . "#cc9393")
+    ("???"   . "#cc9393"))
   "Faces used to highlight specific TODO keywords."
   :group 'hl-todo
   :type '(repeat (cons (string :tag "Keyword")
