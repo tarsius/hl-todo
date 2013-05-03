@@ -33,7 +33,7 @@
 ;; favor of one of the following -- so you might be better of going
 ;; straight for one of these.
 
-;; - [[http://emacswiki.org/fic-ext-mode.el][fic-ext-mode]
+;; - [[http://emacswiki.org/fic-ext-mode.el][fic-ext-mode]]
 ;; - [[https://github.com/lewang/fic-mode][fic-mode]]
 ;; - [[http://emacswiki.org/FixmeMode][fixme-mode]]
 ;; - [[https://github.com/rolandwalker/fixmee][fixmee]]
