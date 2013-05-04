@@ -58,6 +58,8 @@ This is used by `global-hl-todo-mode'."
   :group 'orglink
   :type '(repeat function))
 
+(defvar hl-todo-keywords nil)
+
 (defcustom hl-todo-keyword-faces
   '(("HOLD" . "#d0bf8f")
     ("TODO" . "#cc9393")
@@ -85,8 +87,6 @@ This is used by `global-hl-todo-mode'."
                            (mapconcat 'car value "\\|")
                            "\\)\\_>")
                   (1 (hl-todo-get-face) t))))))
-
-(defvar hl-todo-keywords nil)
 
 (defun hl-todo-get-face ()
   (let ((f (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
