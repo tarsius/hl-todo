@@ -85,6 +85,7 @@
   (let ((f (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
     (if (stringp f) (list :inherit 'hl-todo :foreground f) f)))
 
+;;;###autoload
 (define-minor-mode hl-todo-mode
   "Highlight TODO tags in comments."
   :lighter ""
