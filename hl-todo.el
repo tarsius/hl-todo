@@ -107,7 +107,8 @@ This is used by `global-hl-todo-mode'."
   hl-todo-mode turn-on-hl-todo-mode-if-desired)
 
 (defun turn-on-hl-todo-mode-if-desired ()
-  (derived-mode-p orglink-activate-in-modes))
+  (when (apply 'derived-mode-p hl-todo-activate-in-modes)
+    (hl-todo-mode 1)))
 
 (provide 'hl-todo)
 ;; Local Variables:
