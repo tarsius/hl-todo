@@ -51,7 +51,11 @@
   "Face used to highlight TODO keywords."
   :group 'hl-todo)
 
-(defvar hl-todo-keywords nil)
+(defcustom hl-todo-activate-in-modes '(emacs-lisp-mode)
+  "Major modes in which `hl-todo-mode' should be activated.
+This is used by `global-hl-todo-mode'."
+  :group 'orglink
+  :type '(repeat function))
 
 (defcustom hl-todo-keyword-faces
   '(("HOLD" . "#d0bf8f")
@@ -81,6 +85,8 @@
                            "\\)\\_>")
                   (1 (hl-todo-get-face) t))))))
 
+(defvar hl-todo-keywords nil)
+
 (defun hl-todo-get-face ()
   (let ((f (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
     (if (stringp f) (list :inherit 'hl-todo :foreground f) f)))
@@ -94,6 +100,13 @@
       (font-lock-add-keywords  nil hl-todo-keywords 'append)
     (font-lock-remove-keywords nil hl-todo-keywords))
   (font-lock-fontify-buffer))
+
+;;;###autoload
+(define-globalized-minor-mode global-hl-todo-mode
+  hl-todo-mode turn-on-hl-todo-mode-if-desired)
+
+(defun turn-on-hl-todo-mode-if-desired ()
+  (derived-mode-p orglink-activate-in-modes))
 
 (provide 'hl-todo)
 ;; Local Variables:
