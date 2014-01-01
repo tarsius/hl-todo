@@ -1,6 +1,6 @@
 ;;; hl-todo.el --- highlight TODO keywords in comments
 
-;; Copyright (C) 2013  Jonas Bernoulli
+;; Copyright (C) 2013-2014  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20130310
