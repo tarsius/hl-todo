@@ -1,4 +1,4 @@
-;;; hl-todo.el --- highlight TODO keywords in comments
+;;; hl-todo.el --- highlight TODO keywords
 
 ;; Copyright (C) 2013-2014  Jonas Bernoulli
 
@@ -24,13 +24,13 @@
 
 ;;; Commentary:
 
-;; Hightlight TODO keywords in comments.  There are many minor modes
-;; like it but this one is mine.  It also happens to be simpler than
-;; the alternatives.
+;; Hightlight TODO keywords.  There are many minor modes like it
+;; but this one is mine.  It also happens to be simpler than the
+;; alternatives.
 
-;; For now at least -- I might extend it.  Or I might abandon it in
-;; favor of one of the following -- so you might be better of going
-;; straight for one of these:
+;; For now at least -- I might extend it.  Or I might abandon it
+;; in favor of one of the following -- so you might be better of
+;; going straight for one of these:
 
 ;; - [[http://emacswiki.org/fic-ext-mode.el][fic-ext-mode]]
 ;; - [[https://github.com/lewang/fic-mode][fic-mode]]
@@ -82,7 +82,7 @@ This is used by `global-hl-todo-mode'."
   :set (lambda (symbol value)
          (set-default symbol value)
          (setq hl-todo-keywords
-               `((,(concat "^[\s\t]*;+.*?\\_<\\("
+               `((,(concat "\\_<\\("
                            (mapconcat 'car value "\\|")
                            "\\)\\_>")
                   (1 (hl-todo-get-face) t))))))
