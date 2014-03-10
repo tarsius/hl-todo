@@ -54,7 +54,7 @@
 (defcustom hl-todo-activate-in-modes '(emacs-lisp-mode)
   "Major modes in which `hl-todo-mode' should be activated.
 This is used by `global-hl-todo-mode'."
-  :group 'orglink
+  :group 'hl-todo
   :type '(repeat function))
 
 (defvar hl-todo-keywords nil)
