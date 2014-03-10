@@ -99,7 +99,8 @@ This is used by `global-hl-todo-mode'."
   (if hl-todo-mode
       (font-lock-add-keywords  nil hl-todo-keywords 'append)
     (font-lock-remove-keywords nil hl-todo-keywords))
-  (font-lock-fontify-buffer))
+  (when (called-interactively-p 'any)
+    (font-lock-fontify-buffer)))
 
 ;;;###autoload
 (define-globalized-minor-mode global-hl-todo-mode
