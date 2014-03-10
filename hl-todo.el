@@ -44,7 +44,7 @@
 
 (defgroup hl-todo nil
   "Highlight TODO keywords in comments."
-  :group 'convenience)
+  :group 'font-lock-extra-types)
 
 (defface hl-todo
   '((t (:bold t :foreground "#cc9393")))
