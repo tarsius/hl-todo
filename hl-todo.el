@@ -82,9 +82,7 @@ This is used by `global-hl-todo-mode'."
   :set (lambda (symbol value)
          (set-default symbol value)
          (setq hl-todo-keywords
-               `((,(concat "\\_<\\("
-                           (mapconcat 'car value "\\|")
-                           "\\)\\_>")
+               `((,(regexp-opt (mapcar 'car value) 'symbols)
                   (1 (hl-todo-get-face) t))))))
 
 (defun hl-todo-get-face ()
