@@ -24,9 +24,9 @@
 
 ;;; Commentary:
 
-;; Hightlight TODO keywords.  There are many minor modes like it
-;; but this one is mine.  It also happens to be simpler than the
-;; following alternatives:
+;; Hightlight TODO keywords in comments and strings.  There are
+;; many modes like it but this one is mine.  It also happens to
+;; be simpler than the following alternatives:
 
 ;; - [[http://emacswiki.org/fic-ext-mode.el][fic-ext-mode]]
 ;; - [[https://github.com/lewang/fic-mode][fic-mode]]
@@ -41,7 +41,7 @@
 ;;; Code:
 
 (defgroup hl-todo nil
-  "Highlight TODO keywords in comments."
+  "Highlight TODO keywords in comments and strings."
   :group 'font-lock-extra-types)
 
 (defface hl-todo
@@ -55,7 +55,7 @@ This is used by `global-hl-todo-mode'."
   :group 'hl-todo
   :type '(repeat function))
 
-(defvar hl-todo-keywords nil)
+(defvar hl-todo-regexp nil)
 
 (defcustom hl-todo-keyword-faces
   '(("HOLD" . "#d0bf8f")
@@ -79,9 +79,13 @@ This is used by `global-hl-todo-mode'."
                                (sexp :tag "Face"))))
   :set (lambda (symbol value)
          (set-default symbol value)
-         (setq hl-todo-keywords
-               `((,(regexp-opt (mapcar 'car value) 'symbols)
-                  (1 (hl-todo-get-face) t))))))
+         (setq hl-todo-regexp (regexp-opt (mapcar #'car value) 'symbols))))
+
+(defvar hl-todo-keywords
+  `(((lambda (_)
+       (and (re-search-forward hl-todo-regexp nil t)
+            (nth 8 (syntax-ppss)))) ; inside comment or string
+     (1 (hl-todo-get-face) t))))
 
 (defun hl-todo-get-face ()
   (let ((f (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
@@ -89,7 +93,7 @@ This is used by `global-hl-todo-mode'."
 
 ;;;###autoload
 (define-minor-mode hl-todo-mode
-  "Highlight TODO tags in comments."
+  "Highlight TODO tags in comments and strings."
   :lighter ""
   :group 'hl-todo
   (if hl-todo-mode
