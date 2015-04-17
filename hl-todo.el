@@ -57,6 +57,12 @@ This is used by `global-hl-todo-mode'."
 
 (defvar hl-todo-regexp nil)
 
+(defun hl-todo-set-regexp ()
+  "Set the value of `hl-todo-regexp' based on `hl-todo-keyword-faces'."
+  (setq hl-todo-regexp
+        (concat "\\_<" (regexp-opt (mapcar #'car hl-todo-keyword-faces) t)
+                ":?\\_>")))
+
 (defcustom hl-todo-keyword-faces
   '(("HOLD" . "#d0bf8f")
     ("TODO" . "#cc9393")
@@ -79,8 +85,7 @@ This is used by `global-hl-todo-mode'."
                                (sexp :tag "Face"))))
   :set (lambda (symbol value)
          (set-default symbol value)
-         (setq hl-todo-regexp
-               (concat "\\_<" (regexp-opt (mapcar #'car value) t) ":?\\_>"))))
+         (hl-todo-set-regexp)))
 
 (defvar hl-todo-keywords
   `(((lambda (_)
