@@ -44,11 +44,6 @@
   "Highlight TODO keywords in comments and strings."
   :group 'font-lock-extra-types)
 
-(defface hl-todo
-  '((t (:bold t :foreground "#cc9393")))
-  "Face used to highlight TODO keywords."
-  :group 'hl-todo)
-
 (defcustom hl-todo-activate-in-modes '(emacs-lisp-mode)
   "Major modes in which `hl-todo-mode' should be activated.
 This is used by `global-hl-todo-mode'."
