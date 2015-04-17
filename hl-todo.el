@@ -1,6 +1,6 @@
 ;;; hl-todo.el --- highlight TODO keywords
 
-;; Copyright (C) 2013-2014  Jonas Bernoulli
+;; Copyright (C) 2013-2015  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20130310
@@ -79,7 +79,8 @@ This is used by `global-hl-todo-mode'."
                                (sexp :tag "Face"))))
   :set (lambda (symbol value)
          (set-default symbol value)
-         (setq hl-todo-regexp (regexp-opt (mapcar #'car value) 'symbols))))
+         (setq hl-todo-regexp
+               (concat "\\_<" (regexp-opt (mapcar #'car value) t) ":?\\_>"))))
 
 (defvar hl-todo-keywords
   `(((lambda (_)
