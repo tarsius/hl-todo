@@ -3,7 +3,6 @@
 ;; Copyright (C) 2013-2015  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
-;; Created: 20130310
 ;; Homepage: http://github.com/tarsius/hl-todo
 ;; Keywords: convenience
 
@@ -89,8 +88,10 @@ This is used by `global-hl-todo-mode'."
      (1 (hl-todo-get-face) t))))
 
 (defun hl-todo-get-face ()
-  (let ((f (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
-    (if (stringp f) (list :inherit 'hl-todo :foreground f) f)))
+  (let ((face (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
+    (if (stringp face)
+        (list :inherit 'hl-todo :foreground face)
+      face)))
 
 ;;;###autoload
 (define-minor-mode hl-todo-mode
@@ -98,7 +99,7 @@ This is used by `global-hl-todo-mode'."
   :lighter ""
   :group 'hl-todo
   (if hl-todo-mode
-      (font-lock-add-keywords  nil hl-todo-keywords 'append)
+      (font-lock-add-keywords  nil hl-todo-keywords t)
     (font-lock-remove-keywords nil hl-todo-keywords))
   (when (called-interactively-p 'any)
     (font-lock-fontify-buffer)))
@@ -108,7 +109,7 @@ This is used by `global-hl-todo-mode'."
   hl-todo-mode turn-on-hl-todo-mode-if-desired)
 
 (defun turn-on-hl-todo-mode-if-desired ()
-  (when (apply 'derived-mode-p hl-todo-activate-in-modes)
+  (when (apply #'derived-mode-p hl-todo-activate-in-modes)
     (hl-todo-mode 1)))
 
 (provide 'hl-todo)
