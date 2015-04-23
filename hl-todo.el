@@ -72,6 +72,7 @@ This is used by `global-hl-todo-mode'."
     ("DONT" . "#5f7f5f")
     ("FAIL" . "#8c5353")
     ("DONE" . "#afd8af")
+    ("NOTE" . "#d0bf8f")
     ("FIXME" . "#cc9393")
     ("XXX"   . "#cc9393")
     ("XXXX"  . "#cc9393")
