@@ -93,7 +93,7 @@ This is used by `global-hl-todo-mode'."
        (let (case-fold-search)
          (and (re-search-forward hl-todo-regexp nil t)
               (nth 8 (syntax-ppss))))) ; inside comment or string
-     (1 (hl-todo-get-face) t))))
+     (1 (hl-todo-get-face) t t))))
 
 (defun hl-todo-get-face ()
   (let ((face (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
