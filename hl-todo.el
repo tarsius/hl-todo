@@ -110,7 +110,10 @@ This is used by `global-hl-todo-mode'."
       (font-lock-add-keywords  nil hl-todo-keywords t)
     (font-lock-remove-keywords nil hl-todo-keywords))
   (when (called-interactively-p 'any)
-    (font-lock-fontify-buffer)))
+    (if (fboundp 'font-lock-ensure)
+        (font-lock-ensure)
+      (with-no-warnings
+        (font-lock-fontify-buffer)))))
 
 ;;;###autoload
 (define-globalized-minor-mode global-hl-todo-mode
