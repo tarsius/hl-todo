@@ -56,6 +56,8 @@ This is used by `global-hl-todo-mode'."
 
 (defvar hl-todo-regexp nil)
 
+(defvar hl-todo-keyword-faces)
+
 (defun hl-todo-set-regexp ()
   "Set the value of `hl-todo-regexp' based on `hl-todo-keyword-faces'."
   (setq hl-todo-regexp
