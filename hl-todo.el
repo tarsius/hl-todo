@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; Hightlight TODO keywords in comments and strings.  There are
+;; Highlight TODO keywords in comments and strings.  There are
 ;; many modes like it but this one is mine.  It also happens to
 ;; be simpler than the following alternatives:
 
