@@ -1,6 +1,6 @@
 ;;; hl-todo.el --- highlight TODO keywords
 
-;; Copyright (C) 2013-2015  Jonas Bernoulli
+;; Copyright (C) 2013-2016  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: http://github.com/tarsius/hl-todo
@@ -113,8 +113,8 @@ This is used by `global-hl-todo-mode'."
       (font-lock-add-keywords  nil hl-todo-keywords t)
     (font-lock-remove-keywords nil hl-todo-keywords))
   (when (called-interactively-p 'any)
-    (if (fboundp 'font-lock-flush)
-        (font-lock-flush)
+    (if (fboundp 'font-lock-ensure)
+        (font-lock-ensure)
       (with-no-warnings
         (font-lock-fontify-buffer)))))
 
