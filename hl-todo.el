@@ -91,12 +91,10 @@ This is used by `global-hl-todo-mode'."
          (set-default symbol value)
          (hl-todo-set-regexp)))
 
-(defvar hl-todo-keywords
-  `(((lambda (_)
-       (let (case-fold-search)
-         (and (re-search-forward hl-todo-regexp nil t)
-              (nth 8 (syntax-ppss))))) ; inside comment or string
-     (1 (hl-todo-get-face) t t))))
+(defun hl-todo--matcher (_)
+  (let ((case-fold-search nil))
+    (and (re-search-forward hl-todo-regexp nil t)
+       (nth 8 (syntax-ppss))))) ; inside comment or string
 
 (defun hl-todo-get-face ()
   (let ((face (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
@@ -109,9 +107,12 @@ This is used by `global-hl-todo-mode'."
   "Highlight TODO tags in comments and strings."
   :lighter ""
   :group 'hl-todo
-  (if hl-todo-mode
-      (font-lock-add-keywords  nil hl-todo-keywords t)
-    (font-lock-remove-keywords nil hl-todo-keywords))
+  (let ((font-lock-spec '((hl-todo--matcher 1 (hl-todo-get-face) t t))))
+    (if hl-todo-mode
+        (progn
+          (hl-todo-set-regexp)
+          (font-lock-add-keywords nil font-lock-spec 'end))
+      (font-lock-remove-keywords nil font-lock-spec)))
   (when (called-interactively-p 'any)
     (if (fboundp 'font-lock-ensure)
         (font-lock-ensure)
