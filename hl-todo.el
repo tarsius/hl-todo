@@ -91,12 +91,21 @@ This is used by `global-hl-todo-mode'."
          (set-default symbol value)
          (hl-todo-set-regexp)))
 
-(defvar hl-todo-keywords
-  `(((lambda (_)
-       (let (case-fold-search)
-         (and (re-search-forward hl-todo-regexp nil t)
-              (nth 8 (syntax-ppss))))) ; inside comment or string
-     (1 (hl-todo-get-face) t t))))
+(defun hl-todo--matcher (limit &optional backward)
+  "Matcher function for `font-lock-keywords'."
+  (let ((case-fold-search nil)
+        (no-match t))
+    (while (and no-match
+              (if backward
+                  (re-search-backward hl-todo-regexp limit t)
+                (re-search-forward hl-todo-regexp limit t)))
+      (when (and (nth 8 (syntax-ppss (match-beginning 0)))
+               (nth 8 (syntax-ppss (match-end 0))))
+        (setq no-match nil)
+        (goto-char (if backward
+                       (match-beginning 0)
+                     (match-end 0)))))
+    (not no-match)))
 
 (defun hl-todo-get-face ()
   (let ((face (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
@@ -109,9 +118,12 @@ This is used by `global-hl-todo-mode'."
   "Highlight TODO tags in comments and strings."
   :lighter ""
   :group 'hl-todo
-  (if hl-todo-mode
-      (font-lock-add-keywords  nil hl-todo-keywords t)
-    (font-lock-remove-keywords nil hl-todo-keywords))
+  (let ((font-lock-spec '((hl-todo--matcher 1 (hl-todo-get-face) t t))))
+    (if hl-todo-mode
+        (progn
+          (hl-todo-set-regexp)
+          (font-lock-add-keywords nil font-lock-spec 'end))
+      (font-lock-remove-keywords nil font-lock-spec)))
   (when (called-interactively-p 'any)
     (if (fboundp 'font-lock-ensure)
         (font-lock-ensure)
@@ -125,6 +137,39 @@ This is used by `global-hl-todo-mode'."
 (defun turn-on-hl-todo-mode-if-desired ()
   (when (apply #'derived-mode-p hl-todo-activate-in-modes)
     (hl-todo-mode 1)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;###autoload
+(defun hl-todo-next (arg)
+  "Jump to the next TODO-type word."
+  (interactive "p")
+  (when (< arg 0)
+    (hl-todo-prev (- arg)))
+  (save-match-data
+    (dotimes (_ arg)
+      (hl-todo--matcher (point-max) nil))))
+
+;;;###autoload
+(defun hl-todo-prev (arg)
+  "Jump to the previous TODO-type word."
+  (interactive "p")
+  (when (< arg 0)
+    (hl-todo-next (- arg)))
+  (save-match-data
+    (dotimes (_ arg)
+      (hl-todo--matcher (point-min) t))))
+
+;;;###autoload
+(defun hl-todo-show-all ()
+  "Use `occur' to find all TODO-type strings.
+
+This actually finds a superset of the highlighted words, because
+it uses a regexp instead of a more sophisticated matcher."
+  (interactive)
+  (occur hl-todo-regexp)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (provide 'hl-todo)
 ;; Local Variables:
