@@ -112,9 +112,13 @@ This is used by `global-hl-todo-mode'."
   (if hl-todo-mode
       (font-lock-add-keywords  nil hl-todo-keywords t)
     (font-lock-remove-keywords nil hl-todo-keywords))
-  (when (called-interactively-p 'any)
-    (if (fboundp 'font-lock-ensure)
-        (font-lock-ensure)
+  (when font-lock-mode
+    (if (and (fboundp 'font-lock-flush)
+             (fboundp 'font-lock-ensure))
+        (save-restriction
+          (widen)
+          (font-lock-flush)
+          (font-lock-ensure))
       (with-no-warnings
         (font-lock-fontify-buffer)))))
 
