@@ -110,7 +110,8 @@ This is used by `global-hl-todo-mode'."
   :lighter ""
   :group 'hl-todo
   (if hl-todo-mode
-      (font-lock-add-keywords  nil hl-todo-keywords t)
+      (progn (hl-todo-set-regexp)
+             (font-lock-add-keywords nil hl-todo-keywords t))
     (font-lock-remove-keywords nil hl-todo-keywords))
   (when font-lock-mode
     (if (and (fboundp 'font-lock-flush)
