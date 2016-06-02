@@ -109,7 +109,8 @@ This is used by `global-hl-todo-mode'."
   :group 'hl-todo
   (let ((font-lock-spec '((hl-todo--matcher 1 (hl-todo-get-face) t t))))
     (if hl-todo-mode
-        (font-lock-add-keywords nil font-lock-spec 'end)
+        (progn (hl-todo-set-regexp)
+               (font-lock-add-keywords nil font-lock-spec 'end))
       (font-lock-remove-keywords nil font-lock-spec)))
   (when font-lock-mode
     (if (and (fboundp 'font-lock-flush)
