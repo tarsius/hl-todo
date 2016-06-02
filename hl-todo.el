@@ -131,6 +131,15 @@ This is used by `global-hl-todo-mode'."
   (when (apply #'derived-mode-p hl-todo-activate-in-modes)
     (hl-todo-mode 1)))
 
+;;;###autoload
+(defun hl-todo-occur ()
+  "Use `occur' to find all TODO or similar keywords.
+This actually finds a superset of the highlighted keywords,
+because it uses a regexp instead of a more sophisticated
+matcher."
+  (interactive)
+  (occur hl-todo-regexp))
+
 (provide 'hl-todo)
 ;; Local Variables:
 ;; indent-tabs-mode: nil
