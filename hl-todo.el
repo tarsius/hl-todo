@@ -161,6 +161,15 @@ This is used by `global-hl-todo-mode'."
     (dotimes (_ arg)
       (hl-todo--matcher (point-min) t))))
 
+;;;###autoload
+(defun hl-todo-occur ()
+  "Use `occur' to find all TODO-type strings.
+
+This actually finds a superset of the highlighted words, because
+it uses a regexp instead of a more sophisticated matcher."
+  (interactive)
+  (occur hl-todo-regexp)))
+
 (provide 'hl-todo)
 ;; Local Variables:
 ;; indent-tabs-mode: nil
