@@ -27,6 +27,15 @@
 ;; use, turn on `hl-todo-mode' in individual buffers or use the the
 ;; global variant `global-hl-todo-mode'.
 
+;; This package also provides commands for moving to the next or
+;; previous keyword and to invoke `occur' with a regexp that matches
+;; all known keywords.  If you want to use these commands, then you
+;; should bind them in `hl-todo-mode-map', e.g.:
+;;
+;;   (define-key hl-todo-mode-map (kbd "C-c p") 'hl-todo-previous)
+;;   (define-key hl-todo-mode-map (kbd "C-c n") 'hl-todo-next)
+;;   (define-key hl-todo-mode-map (kbd "C-c o") 'hl-todo-occur)
+
 ;; See [[http://emacswiki.org/FixmeMode][this list]] on the Emacswiki for other packages that implement
 ;; the same basic features, but which might also provide additional
 ;; features that you might like, but which I don't deem necessary.
@@ -102,10 +111,14 @@ This is used by `global-hl-todo-mode'."
         (list :inherit 'hl-todo :foreground face)
       face)))
 
+(defvar hl-todo-mode-map (make-sparse-keymap)
+  "Keymap for `hl-todo-mode'.")
+
 ;;;###autoload
 (define-minor-mode hl-todo-mode
   "Highlight TODO and similar keywords in comments and strings."
   :lighter ""
+  :keymap hl-todo-mode-map
   :group 'hl-todo
   (if hl-todo-mode
       (progn (hl-todo-set-regexp)
@@ -128,6 +141,40 @@ This is used by `global-hl-todo-mode'."
 (defun turn-on-hl-todo-mode-if-desired ()
   (when (apply #'derived-mode-p hl-todo-activate-in-modes)
     (hl-todo-mode 1)))
+
+;;;###autoload
+(defun hl-todo-next (arg)
+  "Jump to the next TODO or similar keyword.
+The prefix argument ARG specifies how many keywords to move.
+A negative argument means move backward that many keywords."
+  (interactive "p")
+  (if (< arg 0)
+      (hl-todo-previous (- arg))
+    (while (and (> arg 0)
+                (not (eobp))
+                (let ((case-fold-search nil))
+                  (when (looking-at hl-todo-regexp)
+                    (goto-char (match-end 0)))
+                  (re-search-forward hl-todo-regexp nil t)))
+      (cl-decf arg))))
+
+;;;###autoload
+(defun hl-todo-previous (arg)
+  "Jump to the previous TODO or similar keyword.
+The prefix argument ARG specifies how many keywords to move.
+A negative argument means move forward that many keywords."
+  (interactive "p")
+  (if (< arg 0)
+      (hl-todo-next (- arg))
+    (while (and (> arg 0)
+                (not (bobp))
+                (let ((case-fold-search nil)
+                      (start (point)))
+                  (re-search-backward (concat hl-todo-regexp "\\=") nil t)
+                  (or (re-search-backward hl-todo-regexp nil t)
+                      (progn (goto-char start) nil))))
+      (goto-char (match-end 0))
+      (cl-decf arg))))
 
 ;;;###autoload
 (defun hl-todo-occur ()
