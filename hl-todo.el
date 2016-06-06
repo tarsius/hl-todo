@@ -1,4 +1,4 @@
-;;; hl-todo.el --- highlight TODO keywords
+;;; hl-todo.el --- highlight TODO and similar keywords
 
 ;; Copyright (C) 2013-2016  Jonas Bernoulli
 
@@ -23,29 +23,27 @@
 
 ;;; Commentary:
 
-;; Highlight TODO keywords in comments and strings.  There are
-;; many modes like it but this one is mine.  It also happens to
-;; be simpler than the following alternatives:
+;; Highlight TODO and similar keywords in comments and strings.  To
+;; use, turn on `hl-todo-mode' in individual buffers or use the the
+;; global variant `global-hl-todo-mode'.
 
-;; - [[http://emacswiki.org/fic-ext-mode.el][fic-ext-mode]]
-;; - [[https://github.com/lewang/fic-mode][fic-mode]]
-;; - [[http://emacswiki.org/FixmeMode][fixme-mode]]
-;; - [[https://github.com/rolandwalker/fixmee][fixmee]]
-
-;; See [[http://emacswiki.org/FixmeMode][this list]] on the Emacswiki for even more alternatives.
-
-;; If you like this you might also like [[https://github.com/tarsius/orglink][orglink]], if you used
-;; this, then the above links would not look so ugly.
+;; See [[http://emacswiki.org/FixmeMode][this list]] on the Emacswiki for other packages that implement
+;; the same basic features, but which might also provide additional
+;; features that you might like, but which I don't deem necessary.
 
 ;;; Code:
 
 (defgroup hl-todo nil
-  "Highlight TODO keywords in comments and strings."
+  "Highlight TODO and similar keywords in comments and strings."
   :group 'font-lock-extra-types)
 
 (defface hl-todo
   '((t (:bold t :foreground "#cc9393")))
-  "Face used to highlight TODO keywords."
+  "Base face used to highlight TODO and similar keywords.
+The faces used to highlight certain keywords are, by default,
+created by inheriting this face and using the appropriate
+color specified using the option `hl-todo-keyword-faces' as
+foreground color."
   :group 'hl-todo)
 
 (defcustom hl-todo-activate-in-modes '(emacs-lisp-mode)
@@ -106,7 +104,7 @@ This is used by `global-hl-todo-mode'."
 
 ;;;###autoload
 (define-minor-mode hl-todo-mode
-  "Highlight TODO tags in comments and strings."
+  "Highlight TODO and similar keywords in comments and strings."
   :lighter ""
   :group 'hl-todo
   (if hl-todo-mode
