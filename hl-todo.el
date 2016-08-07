@@ -99,9 +99,9 @@ This is used by `global-hl-todo-mode'."
          (hl-todo-set-regexp)))
 
 (defvar hl-todo-keywords
-  `(((lambda (_)
+  `(((lambda (limit)
        (let (case-fold-search)
-         (and (re-search-forward hl-todo-regexp nil t)
+         (and (re-search-forward hl-todo-regexp limit t)
               (nth 8 (syntax-ppss))))) ; inside comment or string
      (1 (hl-todo-get-face) t t))))
 
