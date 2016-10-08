@@ -3,7 +3,7 @@
 ;; Copyright (C) 2013-2016  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
-;; Homepage: http://github.com/tarsius/hl-todo
+;; Homepage: https://github.com/tarsius/hl-todo
 ;; Keywords: convenience
 
 ;; This file is not part of GNU Emacs.
