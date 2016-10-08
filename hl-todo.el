@@ -1,4 +1,4 @@
-;;; hl-todo.el --- highlight TODO and similar keywords
+;;; hl-todo.el --- highlight TODO and similar keywords  -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2013-2016  Jonas Bernoulli
 
