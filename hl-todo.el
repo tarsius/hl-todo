@@ -155,7 +155,8 @@ A negative argument means move backward that many keywords."
                 (let ((case-fold-search nil))
                   (when (looking-at hl-todo-regexp)
                     (goto-char (match-end 0)))
-                  (re-search-forward hl-todo-regexp nil t)))
+                  (or (re-search-forward hl-todo-regexp nil t)
+                      (user-error "No more matches"))))
       (cl-decf arg))))
 
 ;;;###autoload
@@ -172,7 +173,8 @@ A negative argument means move forward that many keywords."
                       (start (point)))
                   (re-search-backward (concat hl-todo-regexp "\\=") nil t)
                   (or (re-search-backward hl-todo-regexp nil t)
-                      (progn (goto-char start) nil))))
+                      (progn (goto-char start)
+                             (user-error "No more matches")))))
       (goto-char (match-end 0))
       (cl-decf arg))))
 
