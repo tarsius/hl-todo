@@ -1,6 +1,6 @@
 ;;; hl-todo.el --- highlight TODO and similar keywords  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2013-2016  Jonas Bernoulli
+;; Copyright (C) 2013-2017  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/tarsius/hl-todo
@@ -23,9 +23,13 @@
 
 ;;; Commentary:
 
-;; Highlight TODO and similar keywords in comments and strings.  To
-;; use, turn on `hl-todo-mode' in individual buffers or use the the
-;; global variant `global-hl-todo-mode'.
+;; Highlight TODO and similar keywords in comments and strings.
+
+;; You can either turn on `hl-todo-mode' in individual buffers or use
+;; the the global variant `global-hl-todo-mode'.  Note that the option
+;; `hl-todo-activate-in-modes' controls in what buffers the local mode
+;; will be activated if you do the latter.  By default it will only be
+;; activated in buffers whose major-mode derives from `prog-mode'.
 
 ;; This package also provides commands for moving to the next or
 ;; previous keyword and to invoke `occur' with a regexp that matches
@@ -55,7 +59,7 @@ color specified using the option `hl-todo-keyword-faces' as
 foreground color."
   :group 'hl-todo)
 
-(defcustom hl-todo-activate-in-modes '(emacs-lisp-mode)
+(defcustom hl-todo-activate-in-modes '(prog-mode)
   "Major modes in which `hl-todo-mode' should be activated.
 This is used by `global-hl-todo-mode'."
   :group 'hl-todo
