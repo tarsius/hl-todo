@@ -14,6 +14,10 @@ should bind them in `hl-todo-mode-map`, e.g.:
 (define-key hl-todo-mode-map (kbd "C-c o") 'hl-todo-occur)
 ```
 
+Optionally, if you use [Helm](https://github.com/emacs-helm/helm), you
+can use the command `helm-hl-todo-items` to view and filter to-do
+keywords in the current buffer.
+
 See [this list](http://emacswiki.org/FixmeMode) on the Emacswiki for
 other packages that implement the same basic features, but which might
 also provide additional features that you might like, but which I

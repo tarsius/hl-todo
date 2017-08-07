@@ -191,6 +191,21 @@ matcher."
   (interactive)
   (occur hl-todo-regexp))
 
+;;;; Support Helm
+
+(with-eval-after-load 'helm
+
+  (declare-function helm-build-in-buffer-source "helm-source")
+
+  (defun helm-hl-todo-items ()
+    "Search `hl-todo'-keyword items in current buffer."
+    (helm :sources (helm-build-in-buffer-source "hl-todo items"
+                     :init (lambda ()
+                             (with-current-buffer (helm-candidate-buffer 'global)
+                               (goto-char (point-min))
+                               (delete-non-matching-lines hl-todo-regexp)))
+                     :get-line #'buffer-substring))))
+
 (provide 'hl-todo)
 ;; Local Variables:
 ;; indent-tabs-mode: nil
