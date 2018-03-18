@@ -1,6 +1,6 @@
 ;;; hl-todo.el --- highlight TODO and similar keywords  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2013-2017  Jonas Bernoulli
+;; Copyright (C) 2013-2018  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/tarsius/hl-todo
@@ -191,6 +191,7 @@ matcher."
   (interactive)
   (occur hl-todo-regexp))
 
+;;; _
 (provide 'hl-todo)
 ;; Local Variables:
 ;; indent-tabs-mode: nil
