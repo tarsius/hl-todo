@@ -1,4 +1,5 @@
-## Highlight TODO and similar keywords in comments and strings
+Highlight TODO and similar keywords in comments and strings
+===========================================================
 
 To highlight keywords turn on `hl-todo-mode` in individual buffers
 or use the the global variant `global-hl-todo-mode`.
