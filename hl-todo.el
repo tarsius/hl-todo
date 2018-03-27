@@ -40,7 +40,7 @@
 ;;   (define-key hl-todo-mode-map (kbd "C-c n") 'hl-todo-next)
 ;;   (define-key hl-todo-mode-map (kbd "C-c o") 'hl-todo-occur)
 
-;; See [[http://emacswiki.org/FixmeMode][this list]] on the Emacswiki for other packages that implement
+;; See [[https://www.emacswiki.org/emacs/FixmeMode][this list]] on the Emacswiki for other packages that implement
 ;; the same basic features, but which might also provide additional
 ;; features that you might like, but which I don't deem necessary.
 
