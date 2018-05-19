@@ -97,25 +97,25 @@ follows the keyword."
   :group 'hl-todo
   :type 'string)
 
-(defvar-local hl-todo-regexp nil)
-(defvar-local hl-todo-keywords nil)
+(defvar-local hl-todo--regexp nil)
+(defvar-local hl-todo--keywords nil)
 
-(defun hl-todo-setup ()
-  (setq hl-todo-regexp
+(defun hl-todo--setup ()
+  (setq hl-todo--regexp
         (concat "\\_<\\("
                 (regexp-opt (mapcar #'car hl-todo-keyword-faces) t)
                 (and (not (equal hl-todo-highlight-punctuation ""))
                      (concat "[" hl-todo-highlight-punctuation "]?"))
                 "\\)[[({:;.,?!]?\\_>"))
-  (setq hl-todo-keywords
+  (setq hl-todo--keywords
         `(((lambda (limit)
              (let (case-fold-search)
-               (and (re-search-forward hl-todo-regexp limit t)
+               (and (re-search-forward hl-todo--regexp limit t)
                     (nth 8 (syntax-ppss))))) ; inside comment or string
-           (1 (hl-todo-get-face) t t))))
-  (font-lock-add-keywords nil hl-todo-keywords t))
+           (1 (hl-todo--get-face) t t))))
+  (font-lock-add-keywords nil hl-todo--keywords t))
 
-(defun hl-todo-get-face ()
+(defun hl-todo--get-face ()
   (let ((face (cdr (assoc (match-string 2) hl-todo-keyword-faces))))
     (if (stringp face)
         (list :inherit 'hl-todo :foreground face)
@@ -131,8 +131,8 @@ follows the keyword."
   :keymap hl-todo-mode-map
   :group 'hl-todo
   (if hl-todo-mode
-      (hl-todo-setup)
-    (font-lock-remove-keywords nil hl-todo-keywords))
+      (hl-todo--setup)
+    (font-lock-remove-keywords nil hl-todo--keywords))
   (when font-lock-mode
     (if (and (fboundp 'font-lock-flush)
              (fboundp 'font-lock-ensure))
@@ -145,9 +145,9 @@ follows the keyword."
 
 ;;;###autoload
 (define-globalized-minor-mode global-hl-todo-mode
-  hl-todo-mode turn-on-hl-todo-mode-if-desired)
+  hl-todo-mode hl-todo--turn-on-mode-if-desired)
 
-(defun turn-on-hl-todo-mode-if-desired ()
+(defun hl-todo--turn-on-mode-if-desired ()
   (when (apply #'derived-mode-p hl-todo-activate-in-modes)
     (hl-todo-mode 1)))
 
@@ -162,9 +162,9 @@ A negative argument means move backward that many keywords."
     (while (and (> arg 0)
                 (not (eobp))
                 (let ((case-fold-search nil))
-                  (when (looking-at hl-todo-regexp)
+                  (when (looking-at hl-todo--regexp)
                     (goto-char (match-end 0)))
-                  (or (re-search-forward hl-todo-regexp nil t)
+                  (or (re-search-forward hl-todo--regexp nil t)
                       (user-error "No more matches"))))
       (cl-decf arg))))
 
@@ -180,8 +180,8 @@ A negative argument means move forward that many keywords."
                 (not (bobp))
                 (let ((case-fold-search nil)
                       (start (point)))
-                  (re-search-backward (concat hl-todo-regexp "\\=") nil t)
-                  (or (re-search-backward hl-todo-regexp nil t)
+                  (re-search-backward (concat hl-todo--regexp "\\=") nil t)
+                  (or (re-search-backward hl-todo--regexp nil t)
                       (progn (goto-char start)
                              (user-error "No more matches")))))
       (goto-char (match-end 0))
@@ -194,7 +194,7 @@ This actually finds a superset of the highlighted keywords,
 because it uses a regexp instead of a more sophisticated
 matcher."
   (interactive)
-  (occur hl-todo-regexp))
+  (occur hl-todo--regexp))
 
 ;;; _
 (provide 'hl-todo)
