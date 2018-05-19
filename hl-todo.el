@@ -65,16 +65,6 @@ This is used by `global-hl-todo-mode'."
   :group 'hl-todo
   :type '(repeat function))
 
-(defvar hl-todo-regexp nil)
-
-(defvar hl-todo-keyword-faces)
-
-(defun hl-todo-set-regexp ()
-  "Set the value of `hl-todo-regexp' based on `hl-todo-keyword-faces'."
-  (setq hl-todo-regexp
-        (concat "\\_<" (regexp-opt (mapcar #'car hl-todo-keyword-faces) t)
-                "[[({:;.,?!]?\\_>")))
-
 (defcustom hl-todo-keyword-faces
   '(("HOLD" . "#d0bf8f")
     ("TODO" . "#cc9393")
@@ -97,17 +87,23 @@ This is used by `global-hl-todo-mode'."
   :type '(repeat (cons (string :tag "Keyword")
                        (choice :tag "Face   "
                                (string :tag "Color")
-                               (sexp :tag "Face"))))
-  :set (lambda (symbol value)
-         (set-default symbol value)
-         (hl-todo-set-regexp)))
+                               (sexp :tag "Face")))))
 
-(defvar hl-todo-keywords
-  `(((lambda (limit)
-       (let (case-fold-search)
-         (and (re-search-forward hl-todo-regexp limit t)
-              (nth 8 (syntax-ppss))))) ; inside comment or string
-     (1 (hl-todo-get-face) t t))))
+(defvar-local hl-todo-regexp nil)
+(defvar-local hl-todo-keywords nil)
+
+(defun hl-todo-setup ()
+  (setq hl-todo-regexp
+        (concat "\\_<"
+                (regexp-opt (mapcar #'car hl-todo-keyword-faces) t)
+                "[[({:;.,?!]?\\_>"))
+  (setq hl-todo-keywords
+        `(((lambda (limit)
+             (let (case-fold-search)
+               (and (re-search-forward hl-todo-regexp limit t)
+                    (nth 8 (syntax-ppss))))) ; inside comment or string
+           (1 (hl-todo-get-face) t t))))
+  (font-lock-add-keywords nil hl-todo-keywords t))
 
 (defun hl-todo-get-face ()
   (let ((face (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
@@ -125,8 +121,7 @@ This is used by `global-hl-todo-mode'."
   :keymap hl-todo-mode-map
   :group 'hl-todo
   (if hl-todo-mode
-      (progn (hl-todo-set-regexp)
-             (font-lock-add-keywords nil hl-todo-keywords t))
+      (hl-todo-setup)
     (font-lock-remove-keywords nil hl-todo-keywords))
   (when font-lock-mode
     (if (and (fboundp 'font-lock-flush)
