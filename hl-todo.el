@@ -89,14 +89,24 @@ This is used by `global-hl-todo-mode'."
                                (string :tag "Color")
                                (sexp :tag "Face")))))
 
+(defcustom hl-todo-highlight-punctuation ""
+  "String of punctuation characters to highlight after keywords.
+Each of the characters appearing in this string is highlighted
+using the same face as the preceeding keyword when it directly
+follows the keyword."
+  :group 'hl-todo
+  :type 'string)
+
 (defvar-local hl-todo-regexp nil)
 (defvar-local hl-todo-keywords nil)
 
 (defun hl-todo-setup ()
   (setq hl-todo-regexp
-        (concat "\\_<"
+        (concat "\\_<\\("
                 (regexp-opt (mapcar #'car hl-todo-keyword-faces) t)
-                "[[({:;.,?!]?\\_>"))
+                (and (not (equal hl-todo-highlight-punctuation ""))
+                     (concat "[" hl-todo-highlight-punctuation "]?"))
+                "\\)[[({:;.,?!]?\\_>"))
   (setq hl-todo-keywords
         `(((lambda (limit)
              (let (case-fold-search)
@@ -106,7 +116,7 @@ This is used by `global-hl-todo-mode'."
   (font-lock-add-keywords nil hl-todo-keywords t))
 
 (defun hl-todo-get-face ()
-  (let ((face (cdr (assoc (match-string 1) hl-todo-keyword-faces))))
+  (let ((face (cdr (assoc (match-string 2) hl-todo-keyword-faces))))
     (if (stringp face)
         (list :inherit 'hl-todo :foreground face)
       face)))
