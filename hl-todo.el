@@ -73,7 +73,7 @@ This is used by `global-hl-todo-mode'."
   "Set the value of `hl-todo-regexp' based on `hl-todo-keyword-faces'."
   (setq hl-todo-regexp
         (concat "\\_<" (regexp-opt (mapcar #'car hl-todo-keyword-faces) t)
-                ":?\\_>")))
+                "[:;.,?!]?\\_>")))
 
 (defcustom hl-todo-keyword-faces
   '(("HOLD" . "#d0bf8f")
