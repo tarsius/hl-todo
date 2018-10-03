@@ -105,9 +105,10 @@ follows the keyword."
   (setq hl-todo--regexp
         (concat "\\_<\\("
                 (regexp-opt (mapcar #'car hl-todo-keyword-faces) t)
+                "\\>"
                 (and (not (equal hl-todo-highlight-punctuation ""))
                      (concat "[" hl-todo-highlight-punctuation "]*"))
-                "\\)[[({:;.,?!]?\\_>"))
+                "\\)"))
   (setq hl-todo--keywords
         `(((lambda (limit)
              (let (case-fold-search)
