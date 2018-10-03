@@ -91,10 +91,14 @@ This is used by `global-hl-todo-mode'."
                                (sexp :tag "Face")))))
 
 (defcustom hl-todo-highlight-punctuation ""
-  "String of punctuation characters to highlight after keywords.
+  "String of characters to highlight after keywords.
+
 Each of the characters appearing in this string is highlighted
 using the same face as the preceeding keyword when it directly
-follows the keyword."
+follows the keyword.
+
+Characters whose syntax class is `w' (which means word),
+including alphanumeric characters, cannot be used here."
   :group 'hl-todo
   :type 'string)
 
