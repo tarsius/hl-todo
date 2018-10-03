@@ -107,7 +107,7 @@ including alphanumeric characters, cannot be used here."
 
 (defun hl-todo--setup ()
   (setq hl-todo--regexp
-        (concat "\\_<\\("
+        (concat "\\(\\<"
                 (regexp-opt (mapcar #'car hl-todo-keyword-faces) t)
                 "\\>"
                 (and (not (equal hl-todo-highlight-punctuation ""))
