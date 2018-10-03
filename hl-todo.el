@@ -140,14 +140,11 @@ including alphanumeric characters, cannot be used here."
       (hl-todo--setup)
     (font-lock-remove-keywords nil hl-todo--keywords))
   (when font-lock-mode
-    (if (and (fboundp 'font-lock-flush)
-             (fboundp 'font-lock-ensure))
-        (save-restriction
-          (widen)
-          (font-lock-flush)
-          (font-lock-ensure))
-      (with-no-warnings
-        (font-lock-fontify-buffer)))))
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward hl-todo--regexp nil t)
+        (save-excursion
+	  (font-lock-fontify-region (match-beginning 0) (match-end 0) nil))))))
 
 ;;;###autoload
 (define-globalized-minor-mode global-hl-todo-mode
