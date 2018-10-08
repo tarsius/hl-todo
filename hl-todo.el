@@ -114,12 +114,20 @@ including alphanumeric characters, cannot be used here."
                      (concat "[" hl-todo-highlight-punctuation "]*"))
                 "\\)"))
   (setq hl-todo--keywords
-        `(((lambda (limit)
-             (let (case-fold-search)
-               (and (re-search-forward hl-todo--regexp limit t)
-                    (nth 8 (syntax-ppss))))) ; inside comment or string
+        `(((lambda (bound) (hl-todo--search nil bound))
            (1 (hl-todo--get-face) t t))))
   (font-lock-add-keywords nil hl-todo--keywords t))
+
+(defun hl-todo--search (&optional regexp bound backward)
+  (unless regexp
+    (setq regexp hl-todo--regexp))
+  (and (let ((case-fold-search nil))
+         (funcall (if backward #'re-search-backward #'re-search-forward)
+                  regexp bound t))
+       (or (nth 8 (syntax-ppss)) ; inside comment or string
+           (and (or (not bound)
+                    (funcall (if backward #'< #'>) bound (point)))
+                (hl-todo--search regexp bound backward)))))
 
 (defun hl-todo--get-face ()
   (let ((face (cdr (assoc (match-string 2) hl-todo-keyword-faces))))
@@ -142,7 +150,7 @@ including alphanumeric characters, cannot be used here."
   (when font-lock-mode
     (save-excursion
       (goto-char (point-min))
-      (while (re-search-forward hl-todo--regexp nil t)
+      (while (hl-todo--search)
         (save-excursion
 	  (font-lock-fontify-region (match-beginning 0) (match-end 0) nil))))))
 
@@ -164,10 +172,11 @@ A negative argument means move backward that many keywords."
       (hl-todo-previous (- arg))
     (while (and (> arg 0)
                 (not (eobp))
-                (let ((case-fold-search nil))
-                  (when (looking-at hl-todo--regexp)
+                (progn
+                  (when (let ((case-fold-search nil))
+                          (looking-at hl-todo--regexp))
                     (goto-char (match-end 0)))
-                  (or (re-search-forward hl-todo--regexp nil t)
+                  (or (hl-todo--search)
                       (user-error "No more matches"))))
       (cl-decf arg))))
 
@@ -181,10 +190,9 @@ A negative argument means move forward that many keywords."
       (hl-todo-next (- arg))
     (while (and (> arg 0)
                 (not (bobp))
-                (let ((case-fold-search nil)
-                      (start (point)))
-                  (re-search-backward (concat hl-todo--regexp "\\=") nil t)
-                  (or (re-search-backward hl-todo--regexp nil t)
+                (let ((start (point)))
+                  (hl-todo--search (concat hl-todo--regexp "\\=") nil t)
+                  (or (hl-todo--search nil nil t)
                       (progn (goto-char start)
                              (user-error "No more matches")))))
       (goto-char (match-end 0))
