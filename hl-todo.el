@@ -122,8 +122,9 @@ including alphanumeric characters, cannot be used here."
   (unless regexp
     (setq regexp hl-todo--regexp))
   (and (let ((case-fold-search nil))
-         (funcall (if backward #'re-search-backward #'re-search-forward)
-                  regexp bound t))
+         (with-syntax-table text-mode-syntax-table
+           (funcall (if backward #'re-search-backward #'re-search-forward)
+                    regexp bound t)))
        (or (nth 8 (syntax-ppss)) ; inside comment or string
            (and (or (not bound)
                     (funcall (if backward #'< #'>) bound (point)))
