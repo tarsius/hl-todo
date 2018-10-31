@@ -66,6 +66,16 @@ This is used by `global-hl-todo-mode'."
   :group 'hl-todo
   :type '(repeat function))
 
+(defcustom hl-todo-text-modes '(text-mode)
+  "Major-modes that are considered text-modes.
+
+In buffers whose major-mode derives from one of the modes listed
+here TODO keywords are always highlighted even if they are not
+located inside a string."
+  :package-version '(hl-todo . "2.1.0")
+  :group 'hl-todo
+  :type '(repeat function))
+
 (defcustom hl-todo-keyword-faces
   '(("HOLD" . "#d0bf8f")
     ("TODO" . "#cc9393")
@@ -130,7 +140,8 @@ including alphanumeric characters, cannot be used here."
          (with-syntax-table hl-todo--syntax-table
            (funcall (if backward #'re-search-backward #'re-search-forward)
                     regexp bound t)))
-       (or (nth 8 (syntax-ppss)) ; inside comment or string
+       (or (apply #'derived-mode-p hl-todo-text-modes)
+           (nth 8 (syntax-ppss)) ; inside comment or string
            (and (or (not bound)
                     (funcall (if backward #'< #'>) bound (point)))
                 (hl-todo--search regexp bound backward)))))
@@ -165,7 +176,8 @@ including alphanumeric characters, cannot be used here."
   hl-todo-mode hl-todo--turn-on-mode-if-desired)
 
 (defun hl-todo--turn-on-mode-if-desired ()
-  (when (apply #'derived-mode-p hl-todo-activate-in-modes)
+  (when (and (apply #'derived-mode-p hl-todo-activate-in-modes)
+             (not (derived-mode-p 'org-mode)))
     (hl-todo-mode 1)))
 
 ;;;###autoload
