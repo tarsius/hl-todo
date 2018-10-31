@@ -62,6 +62,7 @@ foreground color."
 (defcustom hl-todo-activate-in-modes '(prog-mode)
   "Major modes in which `hl-todo-mode' should be activated.
 This is used by `global-hl-todo-mode'."
+  :package-version '(hl-todo . "1.8.0")
   :group 'hl-todo
   :type '(repeat function))
 
@@ -84,6 +85,7 @@ This is used by `global-hl-todo-mode'."
     ("XXXX"   . "#cc9393")
     ("???"    . "#cc9393"))
   "Faces used to highlight specific TODO keywords."
+  :package-version '(hl-todo . "2.0.0")
   :group 'hl-todo
   :type '(repeat (cons (string :tag "Keyword")
                        (choice :tag "Face   "
@@ -99,6 +101,7 @@ follows the keyword.
 
 Characters whose syntax class is `w' (which means word),
 including alphanumeric characters, cannot be used here."
+  :package-version '(hl-todo . "2.0.0")
   :group 'hl-todo
   :type 'string)
 
