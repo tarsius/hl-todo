@@ -59,10 +59,17 @@ color specified using the option `hl-todo-keyword-faces' as
 foreground color."
   :group 'hl-todo)
 
-(defcustom hl-todo-activate-in-modes '(prog-mode)
-  "Major modes in which `hl-todo-mode' should be activated.
-This is used by `global-hl-todo-mode'."
-  :package-version '(hl-todo . "1.8.0")
+(defcustom hl-todo-activate-in-modes '(prog-mode text-mode)
+  "Major-modes in which `hl-todo-mode' should be activated.
+
+This is used by `global-hl-todo-mode', which activates
+`hl-todo-mode' in all buffers whose major-mode derived from one
+of the modes listed here.
+
+Even though `org-mode' indirectly derives from `text-mode' this
+mode is never activated in `org-mode' buffers because that mode
+provides its own TODO keyword handling."
+  :package-version '(hl-todo . "2.1.0")
   :group 'hl-todo
   :type '(repeat function))
 
