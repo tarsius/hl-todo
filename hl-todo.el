@@ -118,11 +118,13 @@ including alphanumeric characters, cannot be used here."
            (1 (hl-todo--get-face) t t))))
   (font-lock-add-keywords nil hl-todo--keywords t))
 
+(defvar hl-todo--syntax-table (copy-syntax-table text-mode-syntax-table))
+
 (defun hl-todo--search (&optional regexp bound backward)
   (unless regexp
     (setq regexp hl-todo--regexp))
   (and (let ((case-fold-search nil))
-         (with-syntax-table text-mode-syntax-table
+         (with-syntax-table hl-todo--syntax-table
            (funcall (if backward #'re-search-backward #'re-search-forward)
                     regexp bound t)))
        (or (nth 8 (syntax-ppss)) ; inside comment or string
