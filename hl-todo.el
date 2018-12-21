@@ -232,6 +232,16 @@ matcher."
   (interactive)
   (occur hl-todo--regexp))
 
+;;;###autoload
+(defun hl-todo-insert-keyword (keyword)
+  "A helper command to insert a KEYWORD like TODO or similar keywords.
+All defined keywords are in `hl-todo-keyword-faces' alist."
+  (interactive (list (completing-read "hl-todo keyword: "
+                                      (mapcar 'car hl-todo-keyword-faces))))
+  (if (nth 4 (syntax-ppss (point)))
+      (insert keyword)
+    (insert (format "%s %s " comment-start keyword))))
+
 ;;; _
 (provide 'hl-todo)
 ;; Local Variables:
