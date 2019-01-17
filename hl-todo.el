@@ -243,8 +243,14 @@ comment.  If point is at the end of the line, then insert the
 comment there, otherwise insert it as a new line before the
 current line."
   (interactive
-   (list (completing-read "Insert keyword: "
-                          (mapcar #'car hl-todo-keyword-faces))))
+   (list (completing-read
+          "Insert keyword: "
+          (mapcar (pcase-lambda (`(,keyword . ,face))
+                    (propertize keyword 'face
+                                (if (stringp face)
+                                    (list :inherit 'hl-todo :foreground face)
+                                  face)))
+                  hl-todo-keyword-faces))))
   (cond
    ((hl-todo--inside-comment-or-string-p)
     (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
