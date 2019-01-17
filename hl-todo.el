@@ -235,6 +235,34 @@ matcher."
   (interactive)
   (occur hl-todo--regexp))
 
+;;;###autoload
+(defun hl-todo-insert-keyword (keyword)
+  "Insert TODO or similar keywords.
+If point is not inside a string or comment, then insert a new
+comment.  If point is at the end of the line, then insert the
+comment there, otherwise insert it as a new line before the
+current line."
+  (interactive
+   (list (completing-read "Insert keyword: "
+                          (mapcar #'car hl-todo-keyword-faces))))
+  (cond
+   ((hl-todo--inside-comment-or-string-p)
+    (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
+                    keyword
+                    (and (not (memq (char-after) '(?\s ?\t ?\n))) " "))))
+   ((eolp)
+    (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
+                    (format "%s %s " comment-start keyword))))
+   (t
+    (goto-char (line-beginning-position))
+    (insert (format "%s %s \n"
+                    (if (derived-mode-p 'lisp-mode 'emacs-lisp-mode)
+                        (format "%s%s" comment-start comment-start)
+                      comment-start)
+                    keyword))
+    (backward-char)
+    (indent-region (line-beginning-position) (line-end-position)))))
+
 ;;; _
 (provide 'hl-todo)
 ;; Local Variables:
