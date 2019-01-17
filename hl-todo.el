@@ -237,7 +237,7 @@ matcher."
 
 ;;;###autoload
 (defun hl-todo-insert-keyword (keyword)
-  "Insert TODO or similar keywords.
+  "Insert TODO or similar keyword.
 If point is not inside a string or comment, then insert a new
 comment.  If point is at the end of the line, then insert the
 comment there, otherwise insert it as a new line before the
