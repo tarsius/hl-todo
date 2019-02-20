@@ -9,7 +9,7 @@ previous keyword and to invoke `occur` with a regexp that matches
 all known keywords.  If you want to use these commands, then you
 should bind them in `hl-todo-mode-map`, e.g.:
 
-```lisp
+```emacs-lisp
 (define-key hl-todo-mode-map (kbd "C-c p") 'hl-todo-previous)
 (define-key hl-todo-mode-map (kbd "C-c n") 'hl-todo-next)
 (define-key hl-todo-mode-map (kbd "C-c o") 'hl-todo-occur)
