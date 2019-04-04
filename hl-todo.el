@@ -129,7 +129,7 @@ including alphanumeric characters, cannot be used here."
   (setq hl-todo--regexp
         (concat "\\(\\<"
                 (regexp-opt (mapcar #'car hl-todo-keyword-faces) t)
-                "\\>"
+                "\\(?:\\>\\|\\>?\\)"
                 (and (not (equal hl-todo-highlight-punctuation ""))
                      (concat "[" hl-todo-highlight-punctuation "]*"))
                 "\\)"))
@@ -138,7 +138,10 @@ including alphanumeric characters, cannot be used here."
            (1 (hl-todo--get-face) t t))))
   (font-lock-add-keywords nil hl-todo--keywords t))
 
-(defvar hl-todo--syntax-table (copy-syntax-table text-mode-syntax-table))
+(defvar hl-todo--syntax-table
+  (let ((table (copy-syntax-table text-mode-syntax-table)))
+    (modify-syntax-entry ?? "w" table)
+    table))
 
 (defun hl-todo--search (&optional regexp bound backward)
   (unless regexp
