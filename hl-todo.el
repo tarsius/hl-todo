@@ -241,7 +241,7 @@ string or comment."
     (occur hl-todo--regexp)))
 
 ;;;###autoload
-(defun hl-todo-insert-keyword (keyword)
+(defun hl-todo-insert (keyword)
   "Insert TODO or similar keyword.
 If point is not inside a string or comment, then insert a new
 comment.  If point is at the end of the line, then insert the
@@ -273,6 +273,9 @@ current line."
                     keyword))
     (backward-char)
     (indent-region (line-beginning-position) (line-end-position)))))
+
+(define-obsolete-function-alias 'hl-todo-insert-keyword
+  'hl-todo-insert "Hl-Todo 3.0.0")
 
 ;;; _
 (provide 'hl-todo)
