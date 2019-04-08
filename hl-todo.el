@@ -99,10 +99,17 @@ located inside a string."
     ("HACK"   . "#d0bf8f")
     ("TEMP"   . "#d0bf8f")
     ("FIXME"  . "#cc9393")
-    ("XXX"    . "#cc9393")
-    ("XXXX"   . "#cc9393")
-    ("???"    . "#cc9393"))
-  "Faces used to highlight specific TODO keywords."
+    ("XXX+"   . "#cc9393")
+    ("\\?\\?\\?+" . "#cc9393"))
+  "Faces used to highlight specific TODO keywords.
+
+Each entry has the form (KEYWORD . COLOR).  KEYWORD is used as
+part of a regular expression.  If (regexp-quote KEYWORD) is not
+equal to KEYWORD, then it is ignored by `hl-todo-insert-keyword'.
+
+The syntax class of the characters at either end has to by `word'
+in `hl-todo--syntax-table'.  That syntax table derives from
+`text-mode-syntax-table' but uses `word' as the class of \"?\"."
   :package-version '(hl-todo . "2.0.0")
   :group 'hl-todo
   :type '(repeat (cons (string :tag "Keyword")
@@ -129,7 +136,7 @@ including alphanumeric characters, cannot be used here."
 (defun hl-todo--setup ()
   (setq hl-todo--regexp
         (concat "\\(\\<"
-                (regexp-opt (mapcar #'car hl-todo-keyword-faces) t)
+                "\\(" (mapconcat #'car hl-todo-keyword-faces "\\|") "\\)"
                 "\\(?:\\>\\|\\>?\\)"
                 (and (not (equal hl-todo-highlight-punctuation ""))
                      (concat "[" hl-todo-highlight-punctuation "]*"))
@@ -161,7 +168,10 @@ including alphanumeric characters, cannot be used here."
   (nth 8 (syntax-ppss)))
 
 (defun hl-todo--get-face ()
-  (let ((face (cdr (assoc (match-string 2) hl-todo-keyword-faces))))
+  (let* ((keyword (match-string 2))
+         (face (cdr (cl-find-if (lambda (elt)
+                                  (string-match-p (car elt) keyword))
+                                hl-todo-keyword-faces))))
     (if (stringp face)
         (list :inherit 'hl-todo :foreground face)
       face)))
@@ -251,12 +261,14 @@ current line."
   (interactive
    (list (completing-read
           "Insert keyword: "
-          (mapcar (pcase-lambda (`(,keyword . ,face))
-                    (propertize keyword 'face
-                                (if (stringp face)
-                                    (list :inherit 'hl-todo :foreground face)
-                                  face)))
-                  hl-todo-keyword-faces))))
+          (cl-mapcan (pcase-lambda (`(,keyword . ,face))
+                       (and (equal (regexp-quote keyword) keyword)
+                            (list (propertize
+                                   keyword 'face
+                                   (if (stringp face)
+                                       (list :inherit 'hl-todo :foreground face)
+                                     face)))))
+                     hl-todo-keyword-faces))))
   (cond
    ((hl-todo--inside-comment-or-string-p)
     (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
