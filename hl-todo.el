@@ -32,13 +32,14 @@
 ;; activated in buffers whose major-mode derives from `prog-mode'.
 
 ;; This package also provides commands for moving to the next or
-;; previous keyword and to invoke `occur' with a regexp that matches
-;; all known keywords.  If you want to use these commands, then you
-;; should bind them in `hl-todo-mode-map', e.g.:
+;; previous keyword, to invoke `occur' with a regexp that matches all
+;; known keywords, and to insert a keyword.  If you want to use these
+;; commands, then you should bind them in `hl-todo-mode-map', e.g.:
 ;;
 ;;   (define-key hl-todo-mode-map (kbd "C-c p") 'hl-todo-previous)
 ;;   (define-key hl-todo-mode-map (kbd "C-c n") 'hl-todo-next)
 ;;   (define-key hl-todo-mode-map (kbd "C-c o") 'hl-todo-occur)
+;;   (define-key hl-todo-mode-map (kbd "C-c i") 'hl-todo-insert)
 
 ;; See [[https://www.emacswiki.org/emacs/FixmeMode][this list]] on the Emacswiki for other packages that implement
 ;; the same basic features, but which might also provide additional
