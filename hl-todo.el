@@ -236,7 +236,8 @@ This actually finds a superset of the highlighted keywords,
 because it uses a regexp instead of a more sophisticated
 matcher."
   (interactive)
-  (occur hl-todo--regexp))
+  (with-syntax-table hl-todo--syntax-table
+    (occur hl-todo--regexp)))
 
 ;;;###autoload
 (defun hl-todo-insert-keyword (keyword)
