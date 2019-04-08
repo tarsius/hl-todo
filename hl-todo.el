@@ -234,7 +234,8 @@ A negative argument means move forward that many keywords."
   "Use `occur' to find all TODO or similar keywords.
 This actually finds a superset of the highlighted keywords,
 because it uses a regexp instead of a more sophisticated
-matcher."
+matcher.  It also finds occurrences that are not within a
+string or comment."
   (interactive)
   (with-syntax-table hl-todo--syntax-table
     (occur hl-todo--regexp)))
