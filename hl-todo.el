@@ -107,7 +107,7 @@ Each entry has the form (KEYWORD . COLOR).  KEYWORD is used as
 part of a regular expression.  If (regexp-quote KEYWORD) is not
 equal to KEYWORD, then it is ignored by `hl-todo-insert-keyword'.
 
-The syntax class of the characters at either end has to by `word'
+The syntax class of the characters at either end has to be `word'
 in `hl-todo--syntax-table'.  That syntax table derives from
 `text-mode-syntax-table' but uses `word' as the class of \"?\"."
   :package-version '(hl-todo . "2.0.0")
