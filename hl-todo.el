@@ -6,6 +6,8 @@
 ;; Homepage: https://github.com/tarsius/hl-todo
 ;; Keywords: convenience
 
+;; Package-Requires: ((emacs "25"))
+
 ;; This file is not part of GNU Emacs.
 
 ;; This file is free software; you can redistribute it and/or modify
@@ -46,6 +48,9 @@
 ;; features that you might like, but which I don't deem necessary.
 
 ;;; Code:
+
+(eval-when-compile
+  (require 'subr-x))
 
 (defgroup hl-todo nil
   "Highlight TODO and similar keywords in comments and strings."
@@ -134,6 +139,12 @@ including alphanumeric characters, cannot be used here."
 (defvar-local hl-todo--keywords nil)
 
 (defun hl-todo--setup ()
+  (when-let ((bomb (assoc "???" hl-todo-keyword-faces)))
+    ;; If the user customized this variable before we started to
+    ;; treat the strings as regexps, then the string "???" might
+    ;; still be present.  We have to remove it because it results
+    ;; in the regexp search taking forever.
+    (setq hl-todo-keyword-faces (delete bomb hl-todo-keyword-faces)))
   (setq hl-todo--regexp
         (concat "\\(\\<"
                 "\\(" (mapconcat #'car hl-todo-keyword-faces "\\|") "\\)"
