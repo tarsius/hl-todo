@@ -154,15 +154,16 @@ including alphanumeric characters, cannot be used here."
 (defun hl-todo--search (&optional regexp bound backward)
   (unless regexp
     (setq regexp hl-todo--regexp))
-  (and (let ((case-fold-search nil))
-         (with-syntax-table hl-todo--syntax-table
-           (funcall (if backward #'re-search-backward #'re-search-forward)
-                    regexp bound t)))
-       (or (apply #'derived-mode-p hl-todo-text-modes)
-           (hl-todo--inside-comment-or-string-p)
-           (and (or (not bound)
-                    (funcall (if backward #'< #'>) bound (point)))
-                (hl-todo--search regexp bound backward)))))
+  (cl-block nil
+    (while (let ((case-fold-search nil))
+             (with-syntax-table hl-todo--syntax-table
+               (funcall (if backward #'re-search-backward #'re-search-forward)
+                        regexp bound t)))
+      (cond ((or (apply #'derived-mode-p hl-todo-text-modes)
+                 (hl-todo--inside-comment-or-string-p))
+             (cl-return t))
+            ((and bound (funcall (if backward #'<= #'>=) (point) bound))
+             (cl-return nil))))))
 
 (defun hl-todo--inside-comment-or-string-p ()
   (nth 8 (syntax-ppss)))
