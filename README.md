@@ -20,3 +20,7 @@ See [this list](https://www.emacswiki.org/emacs/FixmeMode) on the Emacswiki for
 other packages that implement the same basic features, but which might
 also provide additional features that you might like, but which I
 don't deem necessary.
+
+---
+[![MELPA](https://melpa.org/packages/hl-todo-badge.svg)](https://melpa.org/#/hl-todo)
+[![MELPA Stable](https://stable.melpa.org/packages/hl-todo-badge.svg)](https://stable.melpa.org/#/hl-todo)
