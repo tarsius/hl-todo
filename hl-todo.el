@@ -114,7 +114,13 @@ equal to KEYWORD, then it is ignored by `hl-todo-insert-keyword'.
 
 The syntax class of the characters at either end has to be `word'
 in `hl-todo--syntax-table'.  That syntax table derives from
-`text-mode-syntax-table' but uses `word' as the class of \"?\"."
+`text-mode-syntax-table' but uses `word' as the class of \"?\".
+
+This package, like most of Emacs, does not use POSIX regexp
+backtracking.  See info node `(elisp)POSIX Regexp' for why that
+matters.  If you have two keywords \"TODO-NOW\" and \"TODO\", then
+they must be specified in that order.  Alternatively you could
+use \"TODO\\(-NOW\\)?\"."
   :package-version '(hl-todo . "2.0.0")
   :group 'hl-todo
   :type '(repeat (cons (string :tag "Keyword")
