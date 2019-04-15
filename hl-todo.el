@@ -112,9 +112,10 @@ Each entry has the form (KEYWORD . COLOR).  KEYWORD is used as
 part of a regular expression.  If (regexp-quote KEYWORD) is not
 equal to KEYWORD, then it is ignored by `hl-todo-insert-keyword'.
 
-The syntax class of the characters at either end has to be `word'
-in `hl-todo--syntax-table'.  That syntax table derives from
-`text-mode-syntax-table' but uses `word' as the class of \"?\".
+The syntax class of the characters at either end has to be `w'
+\(which means word) in `hl-todo--syntax-table'.  That syntax
+table derives from `text-mode-syntax-table' but uses `w' as the
+class of \"?\".
 
 This package, like most of Emacs, does not use POSIX regexp
 backtracking.  See info node `(elisp)POSIX Regexp' for why that
