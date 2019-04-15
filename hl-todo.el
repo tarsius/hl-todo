@@ -122,7 +122,7 @@ backtracking.  See info node `(elisp)POSIX Regexp' for why that
 matters.  If you have two keywords \"TODO-NOW\" and \"TODO\", then
 they must be specified in that order.  Alternatively you could
 use \"TODO\\(-NOW\\)?\"."
-  :package-version '(hl-todo . "2.0.0")
+  :package-version '(hl-todo . "3.0.0")
   :group 'hl-todo
   :type '(repeat (cons (string :tag "Keyword")
                        (choice :tag "Face   "
@@ -308,7 +308,7 @@ current line."
     (indent-region (line-beginning-position) (line-end-position)))))
 
 (define-obsolete-function-alias 'hl-todo-insert-keyword
-  'hl-todo-insert "Hl-Todo 3.0.0")
+  'hl-todo-insert "hl-todo 3.0.0")
 
 ;;; _
 (provide 'hl-todo)
