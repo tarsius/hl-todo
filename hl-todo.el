@@ -31,7 +31,8 @@
 ;; the the global variant `global-hl-todo-mode'.  Note that the option
 ;; `hl-todo-activate-in-modes' controls in what buffers the local mode
 ;; will be activated if you do the latter.  By default it will only be
-;; activated in buffers whose major-mode derives from `prog-mode'.
+;; activated in buffers whose major-mode derives from `prog-mode' or
+;; `text-mode'.
 
 ;; This package also provides commands for moving to the next or
 ;; previous keyword, to invoke `occur' with a regexp that matches all
