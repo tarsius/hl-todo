@@ -159,7 +159,10 @@ including alphanumeric characters, cannot be used here."
 (defvar-local hl-todo--regexp nil)
 (defvar-local hl-todo--keywords nil)
 
-(defun hl-todo--setup ()
+(defun hl-todo--regexp ()
+  (or hl-todo--regexp (hl-todo--setup-regexp)))
+
+(defun hl-todo--setup-regexp ()
   (when-let ((bomb (assoc "???" hl-todo-keyword-faces)))
     ;; If the user customized this variable before we started to
     ;; treat the strings as regexps, then the string "???" might
@@ -172,7 +175,10 @@ including alphanumeric characters, cannot be used here."
                 "\\(?:\\>\\|\\>\\?\\)"
                 (and (not (equal hl-todo-highlight-punctuation ""))
                      (concat "[" hl-todo-highlight-punctuation "]*"))
-                "\\)"))
+                "\\)")))
+
+(defun hl-todo--setup ()
+  (hl-todo--setup-regexp)
   (setq hl-todo--keywords
         `(((lambda (bound) (hl-todo--search nil bound))
            (1 (hl-todo--get-face) t t))))
@@ -250,7 +256,7 @@ A negative argument means move backward that many keywords."
                 (not (eobp))
                 (progn
                   (when (let ((case-fold-search nil))
-                          (looking-at hl-todo--regexp))
+                          (looking-at (hl-todo--regexp)))
                     (goto-char (match-end 0)))
                   (or (hl-todo--search)
                       (user-error "No more matches"))))
@@ -267,7 +273,7 @@ A negative argument means move forward that many keywords."
     (while (and (> arg 0)
                 (not (bobp))
                 (let ((start (point)))
-                  (hl-todo--search (concat hl-todo--regexp "\\=") nil t)
+                  (hl-todo--search (concat (hl-todo--regexp) "\\=") nil t)
                   (or (hl-todo--search nil nil t)
                       (progn (goto-char start)
                              (user-error "No more matches")))))
@@ -283,7 +289,7 @@ matcher.  It also finds occurrences that are not within a
 string or comment."
   (interactive)
   (with-syntax-table hl-todo--syntax-table
-    (occur hl-todo--regexp)))
+    (occur (hl-todo--regexp))))
 
 ;;;###autoload
 (defun hl-todo-insert (keyword)
