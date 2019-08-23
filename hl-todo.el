@@ -156,6 +156,11 @@ including alphanumeric characters, cannot be used here."
   :group 'hl-todo
   :type 'string)
 
+(defcustom hl-todo-attribute :foreground
+  "Face color attribute to apply to keywords."
+  :type '(choice (const :tag "Foreground" :foreground)
+                 (const :tag "Background" :background)))
+
 (defvar-local hl-todo--regexp nil)
 (defvar-local hl-todo--keywords nil)
 
@@ -213,7 +218,7 @@ including alphanumeric characters, cannot be used here."
                                                   keyword))
                                 hl-todo-keyword-faces))))
     (if (stringp face)
-        (list :inherit 'hl-todo :foreground face)
+        (list :inherit 'hl-todo hl-todo-attribute face)
       face)))
 
 (defvar hl-todo-mode-map (make-sparse-keymap)
