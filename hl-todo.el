@@ -145,6 +145,21 @@ use \"TODO\\(-NOW\\)?\"."
                                (string :tag "Color")
                                (sexp :tag "Face")))))
 
+(defcustom hl-todo-color-background nil
+  "Whether to emphasize keywords using the background color.
+
+If an entry in `hl-todo-keyword-faces' specifies a face, then the
+respective keyword is displayed using exactly that face.  In that
+case this option is irrelevant.
+
+Otherwise, if an entry specifies only a color, then the `hl-todo'
+face controls the appearance of the respective keyword, except
+for either the foreground or the background color.  This option
+controls which of the two it is."
+  :package-version '(hl-todo . "3.1.0")
+  :group 'hl-todo
+  :type 'boolean)
+
 (defcustom hl-todo-highlight-punctuation ""
   "String of characters to highlight after keywords.
 
@@ -218,7 +233,9 @@ including alphanumeric characters, cannot be used here."
 
 (defun hl-todo--combine-face (face)
   (if (stringp face)
-      (list :inherit 'hl-todo :foreground face)
+      (list :inherit 'hl-todo
+            (if hl-todo-color-background :background :foreground)
+            face)
     face))
 
 (defvar hl-todo-mode-map (make-sparse-keymap)
