@@ -120,11 +120,13 @@ located inside a string."
     ("FIXME"  . "#cc9393")
     ("XXX+"   . "#cc9393")
     ("\\?\\?\\?+" . "#cc9393"))
-  "Faces used to highlight specific TODO keywords.
+  "An alist mapping keywords to colors/faces used to display them.
 
 Each entry has the form (KEYWORD . COLOR).  KEYWORD is used as
 part of a regular expression.  If (regexp-quote KEYWORD) is not
 equal to KEYWORD, then it is ignored by `hl-todo-insert-keyword'.
+Instead of a color (a string), each COLOR may alternatively be a
+face.
 
 The syntax class of the characters at either end has to be `w'
 \(which means word) in `hl-todo--syntax-table'.  That syntax
