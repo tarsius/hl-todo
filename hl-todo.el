@@ -209,14 +209,17 @@ including alphanumeric characters, cannot be used here."
   (nth 8 (syntax-ppss)))
 
 (defun hl-todo--get-face ()
-  (let* ((keyword (match-string 2))
-         (face (cdr (cl-find-if (lambda (elt)
-                                  (string-match-p (format "\\`%s\\'" (car elt))
-                                                  keyword))
-                                hl-todo-keyword-faces))))
-    (if (stringp face)
-        (list :inherit 'hl-todo :foreground face)
-      face)))
+  (let ((keyword (match-string 2)))
+    (hl-todo--combine-face
+      (cdr (cl-find-if (lambda (elt)
+                         (string-match-p (format "\\`%s\\'" (car elt))
+                                         keyword))
+                       hl-todo-keyword-faces)))))
+
+(defun hl-todo--combine-face (face)
+  (if (stringp face)
+      (list :inherit 'hl-todo :foreground face)
+    face))
 
 (defvar hl-todo-mode-map (make-sparse-keymap)
   "Keymap for `hl-todo-mode'.")
@@ -305,11 +308,8 @@ current line."
           "Insert keyword: "
           (cl-mapcan (pcase-lambda (`(,keyword . ,face))
                        (and (equal (regexp-quote keyword) keyword)
-                            (list (propertize
-                                   keyword 'face
-                                   (if (stringp face)
-                                       (list :inherit 'hl-todo :foreground face)
-                                     face)))))
+                            (list (propertize keyword 'face
+                                              (hl-todo--combine-face face)))))
                      hl-todo-keyword-faces))))
   (cond
    ((hl-todo--inside-comment-or-string-p)
