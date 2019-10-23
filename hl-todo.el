@@ -333,7 +333,8 @@ current line."
     (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
                     keyword
                     (and (not (memq (char-after) '(?\s ?\t ?\n))) " "))))
-   ((eolp)
+   ((and (eolp)
+         (not (looking-back "^[\s\t]*" (line-beginning-position) t)))
     (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
                     (format "%s %s " comment-start keyword))))
    (t
