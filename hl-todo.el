@@ -339,12 +339,13 @@ current line."
                     (format "%s %s " comment-start keyword))))
    (t
     (goto-char (line-beginning-position))
-    (insert (format "%s %s \n"
+    (insert (format "%s %s "
                     (if (derived-mode-p 'lisp-mode 'emacs-lisp-mode)
                         (format "%s%s" comment-start comment-start)
                       comment-start)
                     keyword))
-    (backward-char)
+    (unless (looking-at "[\s\t]*$")
+      (save-excursion (insert "\n")))
     (indent-region (line-beginning-position) (line-end-position)))))
 
 (define-obsolete-function-alias 'hl-todo-insert-keyword
