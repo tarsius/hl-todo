@@ -189,7 +189,7 @@ including alphanumeric characters, cannot be used here."
   (setq hl-todo--regexp
         (concat "\\(\\<"
                 "\\(" (mapconcat #'car hl-todo-keyword-faces "\\|") "\\)"
-                "\\(?:\\>\\|\\>\\?\\)"
+                "\\(?:\\>\\|\\>?\\)"
                 (and (not (equal hl-todo-highlight-punctuation ""))
                      (concat "[" hl-todo-highlight-punctuation "]*"))
                 "\\)")))
