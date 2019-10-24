@@ -118,8 +118,7 @@ located inside a string."
     ("HACK"   . "#d0bf8f")
     ("TEMP"   . "#d0bf8f")
     ("FIXME"  . "#cc9393")
-    ("XXX+"   . "#cc9393")
-    ("\\?\\?\\?+" . "#cc9393"))
+    ("XXX+"   . "#cc9393"))
   "An alist mapping keywords to colors/faces used to display them.
 
 Each entry has the form (KEYWORD . COLOR).  KEYWORD is used as
