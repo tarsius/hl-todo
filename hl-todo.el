@@ -163,7 +163,7 @@ controls which of the two it is."
   "String of characters to highlight after keywords.
 
 Each of the characters appearing in this string is highlighted
-using the same face as the preceeding keyword when it directly
+using the same face as the preceding keyword when it directly
 follows the keyword.
 
 Characters whose syntax class is `w' (which means word),
