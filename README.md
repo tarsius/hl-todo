@@ -4,6 +4,19 @@ Highlight TODO and similar keywords in comments and strings
 To highlight keywords turn on `hl-todo-mode` in individual buffers
 or use the the global variant `global-hl-todo-mode`.
 
+You can customize the keywords that are recognized by customizing
+`hl-todo-keyword-faces` either through the customization interface
+or by setting the variable directly in your init file, for example:
+
+```emacs-lisp
+(setq hl-todo-keyword-faces
+      '(("TODO"   . "#FF0000")
+        ("FIXME"  . "#FF0000")
+        ("DEBUG"  . "#A020F0")
+        ("GOTCHA" . "#FF4500")
+        ("STUB"   . "#1E90FF")))
+```
+
 This package also provides commands for moving to the next or
 previous keyword, to invoke `occur` with a regexp that matches all
 known keywords, and to insert a keyword.  If you want to use these
