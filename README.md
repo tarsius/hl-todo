@@ -1,4 +1,4 @@
-Highlight TODO and similar keywords in comments and strings
+Highlight TODO and similar keywords (codetags) in comments and strings
 -----------------------------------------------------------
 
 To highlight keywords turn on `hl-todo-mode` in individual buffers
@@ -20,3 +20,20 @@ See [this list](https://www.emacswiki.org/emacs/FixmeMode) on the Emacswiki for
 other packages that implement the same basic features, but which might
 also provide additional features that you might like, but which I
 don't deem necessary.
+
+Customizing Tags
+================
+
+You can customize the code tags that are recognized by hl-todo by
+customizing `hl-todo-keyword-faces` either through the customization
+menu or by setting the variable directly in your `.emacs` file for
+example:
+
+```emacs-lisp
+(setq hl-todo-keyword-faces
+      '(("TODO" . "#Ff0000")
+        ("FIXME" . "#Ff0000")
+        ("DEBUG" . "#A020f0")
+        ("GOTCHA" . "#Ff4500")
+        ("STUB" . "#1e90ff")))
+```
