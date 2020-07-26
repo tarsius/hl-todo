@@ -251,7 +251,7 @@ including alphanumeric characters, cannot be used here."
       (goto-char (point-min))
       (while (hl-todo--search)
         (save-excursion
-	  (font-lock-fontify-region (match-beginning 0) (match-end 0) nil))))))
+          (font-lock-fontify-region (match-beginning 0) (match-end 0) nil))))))
 
 ;;;###autoload
 (define-globalized-minor-mode global-hl-todo-mode
