@@ -243,15 +243,16 @@ including alphanumeric characters, cannot be used here."
   :lighter ""
   :keymap hl-todo-mode-map
   :group 'hl-todo
+  (unless (and font-lock-mode font-lock-defaults)
+    (user-error "Cannot enable hl-todo-mode without font-lock"))
   (if hl-todo-mode
       (hl-todo--setup)
     (font-lock-remove-keywords nil hl-todo--keywords))
-  (when font-lock-mode
-    (save-excursion
-      (goto-char (point-min))
-      (while (hl-todo--search)
-        (save-excursion
-          (font-lock-fontify-region (match-beginning 0) (match-end 0) nil))))))
+  (save-excursion
+    (goto-char (point-min))
+    (while (hl-todo--search)
+      (save-excursion
+        (font-lock-fontify-region (match-beginning 0) (match-end 0) nil)))))
 
 ;;;###autoload
 (define-globalized-minor-mode global-hl-todo-mode
