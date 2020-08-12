@@ -244,12 +244,8 @@ including alphanumeric characters, cannot be used here."
   :keymap hl-todo-mode-map
   :group 'hl-todo
   (if hl-todo-mode
-      (if (font-lock-specified-p t)
-          (hl-todo--setup)
-        (setq hl-todo-mode nil)
-        (user-error "Cannot enable hl-todo-mode without font-lock"))
+      (hl-todo--setup)
     (font-lock-remove-keywords nil hl-todo--keywords))
-  ;; FIXME Why check for font-lock-mode at this point?
   (when font-lock-mode
     (save-excursion
       (goto-char (point-min))
@@ -263,8 +259,7 @@ including alphanumeric characters, cannot be used here."
 
 (defun hl-todo--turn-on-mode-if-desired ()
   (when (and (apply #'derived-mode-p hl-todo-include-modes)
-             (not (apply #'derived-mode-p hl-todo-exclude-modes))
-             (font-lock-specified-p t))
+             (not (apply #'derived-mode-p hl-todo-exclude-modes)))
     (hl-todo-mode 1)))
 
 ;;;###autoload
