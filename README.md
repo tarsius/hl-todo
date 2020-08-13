@@ -33,3 +33,6 @@ See [this list](https://www.emacswiki.org/emacs/FixmeMode) on the
 Emacswiki for other packages that implement the same basic features,
 but which might also provide additional features that you might like,
 but which I don't deem necessary.
+
+See [FAQ and Common Issues](https://github.com/tarsius/hl-todo/wiki)
+if something isn't working as expected.
