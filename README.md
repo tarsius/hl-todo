@@ -1,3 +1,6 @@
+[![MELPA](https://melpa.org/packages/hl-todo-badge.svg)](https://melpa.org/#/hl-todo)
+[![MELPA Stable](https://stable.melpa.org/packages/hl-todo-badge.svg)](https://stable.melpa.org/#/hl-todo)
+
 Highlight TODO and similar keywords in comments and strings
 -----------------------------------------------------------
 
