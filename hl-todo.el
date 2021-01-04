@@ -172,6 +172,13 @@ including alphanumeric characters, cannot be used here."
   :group 'hl-todo
   :type 'string)
 
+(defcustom hl-todo-require-punctuation nil
+  "Whether to require punctuation after keywords."
+  :package-version '(hl-todo . "3.3.0")
+  :group 'hl-todo
+  :type 'bolean
+  )
+
 (defvar-local hl-todo--regexp nil)
 (defvar-local hl-todo--keywords nil)
 
@@ -190,7 +197,8 @@ including alphanumeric characters, cannot be used here."
                 "\\(" (mapconcat #'car hl-todo-keyword-faces "\\|") "\\)"
                 "\\>"
                 (and (not (equal hl-todo-highlight-punctuation ""))
-                     (concat "[" hl-todo-highlight-punctuation "]*"))
+                     (concat "[" hl-todo-highlight-punctuation "]"
+                             (if hl-todo-require-punctuation "+" "*")))
                 "\\)")))
 
 (defun hl-todo--setup ()
