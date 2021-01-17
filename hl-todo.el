@@ -209,11 +209,14 @@ including alphanumeric characters, cannot be used here."
 
 (defvar hl-todo--syntax-table (copy-syntax-table text-mode-syntax-table))
 
+(defvar syntax-ppss-table) ; Silence Emacs 25's byte-compiler.
+
 (defun hl-todo--search (&optional regexp bound backward)
   (unless regexp
     (setq regexp hl-todo--regexp))
   (cl-block nil
-    (while (let ((case-fold-search nil))
+    (while (let ((case-fold-search nil)
+                 (syntax-ppss-table (syntax-table)))
              (with-syntax-table hl-todo--syntax-table
                (funcall (if backward #'re-search-backward #'re-search-forward)
                         regexp bound t)))
