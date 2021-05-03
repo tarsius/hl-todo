@@ -204,7 +204,7 @@ including alphanumeric characters, cannot be used here."
   (hl-todo--setup-regexp)
   (setq hl-todo--keywords
         `(((lambda (bound) (hl-todo--search nil bound))
-           (1 (hl-todo--get-face) t t))))
+           (1 (hl-todo--get-face) prepend t))))
   (font-lock-add-keywords nil hl-todo--keywords t))
 
 (defvar hl-todo--syntax-table (copy-syntax-table text-mode-syntax-table))
