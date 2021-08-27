@@ -161,6 +161,12 @@ controls which of the two it is."
   :group 'hl-todo
   :type 'boolean)
 
+(defcustom hl-todo-wrap-movement nil
+  "Whether movement commands wrap around when there are no more matches."
+  :package-version '(hl-todo . "3.4.0")
+  :group 'hl-todo
+  :type 'boolean)
+
 (defcustom hl-todo-highlight-punctuation ""
   "String of characters to highlight after keywords.
 
@@ -290,8 +296,14 @@ A negative argument means move backward that many keywords."
                           (looking-at (hl-todo--regexp)))
                     (goto-char (match-end 0)))
                   (or (hl-todo--search)
-                      (user-error "No more matches"))))
-      (cl-decf arg))))
+                      (if hl-todo-wrap-movement
+                          nil
+                        (user-error "No more matches")))))
+      (cl-decf arg))
+    (when (> arg 0)
+      (goto-char (point-min))
+      (let ((hl-todo-wrap-movement nil))
+        (hl-todo-next arg)))))
 
 ;;;###autoload
 (defun hl-todo-previous (arg)
@@ -307,9 +319,15 @@ A negative argument means move forward that many keywords."
                   (hl-todo--search (concat (hl-todo--regexp) "\\=") nil t)
                   (or (hl-todo--search nil nil t)
                       (progn (goto-char start)
-                             (user-error "No more matches")))))
+                             (if hl-todo-wrap-movement
+                                 nil
+                               (user-error "No more matches"))))))
       (goto-char (match-end 0))
-      (cl-decf arg))))
+      (cl-decf arg))
+    (when (> arg 0)
+      (goto-char (point-max))
+      (let ((hl-todo-wrap-movement nil))
+        (hl-todo-previous arg)))))
 
 ;;;###autoload
 (defun hl-todo-occur ()
