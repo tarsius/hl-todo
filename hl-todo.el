@@ -130,9 +130,8 @@ Instead of a color (a string), each COLOR may alternatively be a
 face.
 
 The syntax class of the characters at either end has to be `w'
-\(which means word) in `hl-todo--syntax-table'.  That syntax
-table derives from `text-mode-syntax-table' but uses `w' as the
-class of \"?\".
+\(which means word) in `hl-todo--syntax-table' (which derives
+from `text-mode-syntax-table').
 
 This package, like most of Emacs, does not use POSIX regexp
 backtracking.  See info node `(elisp)POSIX Regexp' for why that
