@@ -264,11 +264,7 @@ including alphanumeric characters, cannot be used here."
       (hl-todo--setup)
     (font-lock-remove-keywords nil hl-todo--keywords))
   (when font-lock-mode
-    (save-excursion
-      (goto-char (point-min))
-      (while (hl-todo--search)
-        (save-excursion
-          (font-lock-fontify-region (match-beginning 0) (match-end 0) nil))))))
+    (jit-lock-mode 1)))
 
 ;;;###autoload
 (define-globalized-minor-mode global-hl-todo-mode
