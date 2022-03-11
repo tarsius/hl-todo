@@ -1,6 +1,6 @@
 ;;; hl-todo.el --- highlight TODO and similar keywords  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2013-2021  Jonas Bernoulli
+;; Copyright (C) 2013-2022  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/tarsius/hl-todo
@@ -361,11 +361,12 @@ current line."
                     (format "%s %s " comment-start keyword))))
    (t
     (goto-char (line-beginning-position))
-    (insert (format "%s %s "
-                    (if (derived-mode-p 'lisp-mode 'emacs-lisp-mode)
-                        (format "%s%s" comment-start comment-start)
-                      comment-start)
-                    keyword))
+    (insert (cond ((derived-mode-p 'lisp-mode 'emacs-lisp-mode)
+                   (format "%s%s %s" comment-start comment-start keyword))
+                  ((string-suffix-p " " comment-start)
+                   (format "%s%s" comment-start keyword))
+                  (t
+                   (format "%s %s" comment-start keyword))))
     (unless (looking-at "[\s\t]*$")
       (save-excursion (insert "\n")))
     (indent-region (line-beginning-position) (line-end-position)))))
