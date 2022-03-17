@@ -52,7 +52,7 @@
 
 ;;; Code:
 
-(require' cl-lib)
+(require 'cl-lib)
 
 (eval-when-compile
   (require 'subr-x))
