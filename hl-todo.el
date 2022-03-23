@@ -296,9 +296,12 @@ A negative argument means move backward that many keywords."
                         (user-error "No more matches")))))
       (cl-decf arg))
     (when (> arg 0)
-      (goto-char (point-min))
-      (let ((hl-todo-wrap-movement nil))
-        (hl-todo-next arg)))))
+      (let ((pos (save-excursion
+                   (goto-char (point-min))
+                   (let ((hl-todo-wrap-movement nil))
+                     (hl-todo-next arg))
+                   (point))))
+        (goto-char pos)))))
 
 ;;;###autoload
 (defun hl-todo-previous (arg)
@@ -320,9 +323,12 @@ A negative argument means move forward that many keywords."
       (goto-char (match-end 0))
       (cl-decf arg))
     (when (> arg 0)
-      (goto-char (point-max))
-      (let ((hl-todo-wrap-movement nil))
-        (hl-todo-previous arg)))))
+      (let ((pos (save-excursion
+                   (goto-char (point-max))
+                   (let ((hl-todo-wrap-movement nil))
+                     (hl-todo-previous arg))
+                   (point))))
+        (goto-char pos)))))
 
 ;;;###autoload
 (defun hl-todo-occur ()
