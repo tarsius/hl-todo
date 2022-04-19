@@ -57,6 +57,9 @@
 (eval-when-compile
   (require 'subr-x))
 
+(defvar grep-find-template)
+(declare-function grep-read-files "grep" (regexp))
+
 (defgroup hl-todo nil
   "Highlight TODO and similar keywords in comments and strings."
   :group 'font-lock-extra-types)
@@ -120,7 +123,7 @@ located inside a string."
     ("HACK"   . "#d0bf8f")
     ("TEMP"   . "#d0bf8f")
     ("FIXME"  . "#cc9393")
-    ("XXX+"   . "#cc9393"))
+    ("XXXX*"  . "#cc9393"))
   "An alist mapping keywords to colors/faces used to display them.
 
 Each entry has the form (KEYWORD . COLOR).  KEYWORD is used as
@@ -137,8 +140,15 @@ This package, like most of Emacs, does not use POSIX regexp
 backtracking.  See info node `(elisp)POSIX Regexp' for why that
 matters.  If you have two keywords \"TODO-NOW\" and \"TODO\", then
 they must be specified in that order.  Alternatively you could
-use \"TODO\\(-NOW\\)?\"."
-  :package-version '(hl-todo . "3.0.0")
+use \"TODO\\(-NOW\\)?\".
+
+If you use the command `hl-todo-rgrep', rewrite KEYWORDs to
+use \"*\" instead of \"+\" and generally make sure they are valid
+as Emacs regexps and as basic regular expressions as understood
+by Grep.  If you customize variables in the `grep' group, or use
+a Grep implementation other than GNU's, then that may break
+`hl-todo-rgrep'."
+  :package-version '(hl-todo . "3.5.0")
   :group 'hl-todo
   :type '(repeat (cons (string :tag "Keyword")
                        (choice :tag "Face   "
@@ -340,6 +350,30 @@ string or comment."
   (interactive)
   (with-syntax-table hl-todo--syntax-table
     (occur (hl-todo--regexp))))
+
+;;;###autoload
+(defun hl-todo-rgrep (regexp &optional files dir confirm)
+  "Use `rgrep' to find all TODO or similar keywords.
+This actually finds a superset of the highlighted keywords,
+because it uses a regexp instead of a more sophisticated
+matcher.  It also finds occurrences that are not within a
+string or comment.  See `rgrep' for the meaning of REGEXP,
+FILES, DIR and CONFIRM, except that the type of prefix
+argument does not matter; with any prefix you can edit the
+constructed shell command line before it is executed.
+Also see option `hl-todo-keyword-faces'."
+  (interactive
+   (progn
+     (require 'grep)
+     (grep-compute-defaults)
+     (unless grep-find-template
+       (error "grep.el: No `grep-find-template' available"))
+     (let ((regexp (with-temp-buffer (hl-todo--regexp))))
+       (list regexp
+             (grep-read-files regexp)
+             (read-directory-name "Base directory: " nil default-directory t)
+             current-prefix-arg))))
+  (rgrep regexp files dir confirm))
 
 ;;;###autoload
 (defun hl-todo-insert (keyword)
