@@ -53,8 +53,7 @@
 (require 'cl-lib)
 (require 'compat)
 
-(eval-when-compile
-  (require 'subr-x))
+(eval-when-compile (require 'subr-x))
 
 (defvar grep-find-template)
 (declare-function grep-read-files "grep" (regexp))
