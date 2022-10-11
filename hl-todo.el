@@ -218,7 +218,7 @@ including alphanumeric characters, cannot be used here."
 (defun hl-todo--setup ()
   (hl-todo--setup-regexp)
   (setq hl-todo--keywords
-        `(((lambda (bound) (hl-todo--search nil bound))
+        `((,(lambda (bound) (hl-todo--search nil bound))
            (1 (hl-todo--get-face) prepend t))))
   (font-lock-add-keywords nil hl-todo--keywords t))
 
