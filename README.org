@@ -33,3 +33,8 @@ the same basic features, but which might also provide additional
 features that you might like, but which I don't deem necessary.
 
 See [[https://github.com/tarsius/hl-todo/wiki][FAQ and Common Issues]] if something isn't working as expected.
+
+#+html: <br><br>
+#+html: <a href="https://github.com/tarsius/hl-todo/actions/workflows/compile.yml"><img alt="Compile" src="https://github.com/tarsius/hl-todo/actions/workflows/compile.yml/badge.svg"/></a>
+#+html: <a href="https://stable.melpa.org/#/hl-todo"><img alt="MELPA Stable" src="https://stable.melpa.org/packages/hl-todo-badge.svg"/></a>
+#+html: <a href="https://melpa.org/#/hl-todo"><img alt="MELPA" src="https://melpa.org/packages/hl-todo-badge.svg"/></a>
