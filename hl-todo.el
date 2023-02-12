@@ -259,8 +259,8 @@ including alphanumeric characters, cannot be used here."
             face)
     face))
 
-(defvar hl-todo-mode-map (make-sparse-keymap)
-  "Keymap for `hl-todo-mode'.")
+(defvar-keymap hl-todo-mode-map
+  :doc "Keymap for `hl-todo-mode'.")
 
 ;;;###autoload
 (define-minor-mode hl-todo-mode
