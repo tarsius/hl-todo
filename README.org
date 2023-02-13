@@ -9,11 +9,11 @@ or by setting the variable directly in your init file, for example:
 
 #+begin_src emacs-lisp
   (setq hl-todo-keyword-faces
-	'(("TODO"   . "#FF0000")
-	  ("FIXME"  . "#FF0000")
-	  ("DEBUG"  . "#A020F0")
-	  ("GOTCHA" . "#FF4500")
-	  ("STUB"   . "#1E90FF")))
+        '(("TODO"   . "#FF0000")
+          ("FIXME"  . "#FF0000")
+          ("DEBUG"  . "#A020F0")
+          ("GOTCHA" . "#FF4500")
+          ("STUB"   . "#1E90FF")))
 #+end_src
 
 This package also provides commands for moving to the next or
