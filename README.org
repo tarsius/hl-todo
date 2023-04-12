@@ -22,10 +22,10 @@ known keywords, and to insert a keyword.  If you want to use these
 commands, then you should bind them in ~hl-todo-mode-map~, e.g.:
 
 #+begin_src emacs-lisp
-  (define-key hl-todo-mode-map (kbd "C-c p") 'hl-todo-previous)
-  (define-key hl-todo-mode-map (kbd "C-c n") 'hl-todo-next)
-  (define-key hl-todo-mode-map (kbd "C-c o") 'hl-todo-occur)
-  (define-key hl-todo-mode-map (kbd "C-c i") 'hl-todo-insert)
+  (keymap-set hl-todo-mode-map "C-c p" #'hl-todo-previous)
+  (keymap-set hl-todo-mode-map "C-c n" #'hl-todo-next)
+  (keymap-set hl-todo-mode-map "C-c o" #'hl-todo-occur)
+  (keymap-set hl-todo-mode-map "C-c i" #'hl-todo-insert)
 #+end_src
 
 See [[https://www.emacswiki.org/emacs/FixmeMode][this list]] on the Emacswiki for other packages that implement
