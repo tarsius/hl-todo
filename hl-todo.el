@@ -254,9 +254,9 @@ including alphanumeric characters, cannot be used here."
 
 (defun hl-todo--combine-face (face)
   (if (stringp face)
-      (list :inherit 'hl-todo
-            (if hl-todo-color-background :background :foreground)
-            face)
+      `((,(if hl-todo-color-background :background :foreground)
+         ,face)
+        hl-todo)
     face))
 
 (defvar-keymap hl-todo-mode-map
