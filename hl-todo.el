@@ -57,6 +57,7 @@
 
 (defvar grep-find-template)
 (declare-function grep-read-files "grep" (regexp))
+(declare-function flymake-make-diagnostic "flymake")
 
 (defgroup hl-todo nil
   "Highlight TODO and similar keywords in comments and strings."
@@ -372,6 +373,32 @@ Also see option `hl-todo-keyword-faces'."
              (read-directory-name "Base directory: " nil default-directory t)
              current-prefix-arg))))
   (rgrep regexp files dir confirm))
+
+;;;###autoload
+(defun hl-todo-flymake (report-fn &rest plist)
+  "Flymake backend for `hl-todo-mode'.
+Diagnostics are reported to REPORT-FN and additional options are
+given as PLIST.  Use `add-hook' to register this function in
+`flymake-diagnostic-functions' before enabling `flymake-mode'."
+  (let (diags rbeg rend)
+    (when hl-todo-mode
+      (save-excursion
+        (save-restriction
+          (save-match-data
+            (goto-char (or (plist-get plist :changes-start) (point-min)))
+            (setq rbeg (pos-bol))
+            (goto-char (or (plist-get plist :changes-end) (point-max)))
+            (setq rend (pos-eol))
+            (goto-char rbeg)
+            (while (hl-todo--search nil rend)
+              (let ((beg (match-beginning 0))
+                    (end (pos-eol)))
+                (push (flymake-make-diagnostic
+                       (current-buffer) beg end :note
+                       (buffer-substring-no-properties beg end))
+                      diags)))))))
+    (apply report-fn (nreverse diags)
+           (and rbeg `(:region (,rbeg . ,rend))))))
 
 ;;;###autoload
 (defun hl-todo-insert (keyword)
