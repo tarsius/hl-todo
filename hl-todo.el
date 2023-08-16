@@ -380,7 +380,9 @@ Also see option `hl-todo-keyword-faces'."
 Diagnostics are reported to REPORT-FN.  Use `add-hook' to
 register this function in `flymake-diagnostic-functions' before
 enabling `flymake-mode'."
-  (let (diags)
+  (let ((diags nil)
+        (buf (current-buffer))
+        (comment (concat (regexp-quote comment-start) "\\s-+")))
     (when hl-todo-mode
       (save-excursion
         (save-restriction
@@ -388,9 +390,22 @@ enabling `flymake-mode'."
             (goto-char (point-min))
             (while (hl-todo--search)
               (let ((beg (match-beginning 0))
-                    (end (pos-eol)))
+                    (end (pos-eol))
+                    (bol (pos-bol)))
+                ;; Take whole line when keyword is not at the start of comment
+                (save-excursion
+                  (goto-char beg)
+                  (unless (looking-back comment bol)
+                    (goto-char bol)
+                    ;; Skip whitespace at the beginning of line
+                    (when (and (not (looking-at-p "\\S-"))
+                               (re-search-forward "\\S-" beg t))
+                      (forward-char -1))
+                    ;; Skip comment
+                    (re-search-forward comment beg t)
+                    (setq beg (point))))
                 (push (flymake-make-diagnostic
-                       (current-buffer) beg end :note
+                       buf beg end :note
                        (buffer-substring-no-properties beg end))
                       diags)))))))
     (funcall report-fn (nreverse diags))))
