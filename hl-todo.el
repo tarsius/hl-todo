@@ -196,7 +196,7 @@ including alphanumeric characters, cannot be used here."
 (defvar-local hl-todo--regexp nil)
 (defvar-local hl-todo--keywords nil)
 
-(defun hl-todo--regexp ()
+(defsubst hl-todo--regexp ()
   "Return regular expression matching TODO or similar keyword."
   (or hl-todo--regexp (hl-todo--setup-regexp)))
 
@@ -219,7 +219,6 @@ See the function `hl-todo--regexp'."
                 "\\)")))
 
 (defun hl-todo--setup ()
-  (hl-todo--setup-regexp)
   (setq hl-todo--keywords
         `((,(lambda (bound) (hl-todo--search nil bound))
            (1 (hl-todo--get-face) prepend t))))
@@ -234,7 +233,7 @@ See the function `hl-todo--regexp'."
 If REGEXP is not given, it defaults to the return value of the
 function `hl-todo--regexp'."
   (unless regexp
-    (setq regexp hl-todo--regexp))
+    (setq regexp (hl-todo--regexp)))
   (cl-block nil
     (while (let ((case-fold-search nil)
                  (syntax-ppss-table (syntax-table)))
