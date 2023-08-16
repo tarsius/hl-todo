@@ -375,30 +375,25 @@ Also see option `hl-todo-keyword-faces'."
   (rgrep regexp files dir confirm))
 
 ;;;###autoload
-(defun hl-todo-flymake (report-fn &rest plist)
+(defun hl-todo-flymake (report-fn &rest _plist)
   "Flymake backend for `hl-todo-mode'.
-Diagnostics are reported to REPORT-FN and additional options are
-given as PLIST.  Use `add-hook' to register this function in
-`flymake-diagnostic-functions' before enabling `flymake-mode'."
-  (let (diags rbeg rend)
+Diagnostics are reported to REPORT-FN.  Use `add-hook' to
+register this function in `flymake-diagnostic-functions' before
+enabling `flymake-mode'."
+  (let (diags)
     (when hl-todo-mode
       (save-excursion
         (save-restriction
           (save-match-data
-            (goto-char (or (plist-get plist :changes-start) (point-min)))
-            (setq rbeg (pos-bol))
-            (goto-char (or (plist-get plist :changes-end) (point-max)))
-            (setq rend (pos-eol))
-            (goto-char rbeg)
-            (while (hl-todo--search nil rend)
+            (goto-char (point-min))
+            (while (hl-todo--search)
               (let ((beg (match-beginning 0))
                     (end (pos-eol)))
                 (push (flymake-make-diagnostic
                        (current-buffer) beg end :note
                        (buffer-substring-no-properties beg end))
                       diags)))))))
-    (apply report-fn (nreverse diags)
-           (and rbeg `(:region (,rbeg . ,rend))))))
+    (funcall report-fn (nreverse diags))))
 
 ;;;###autoload
 (defun hl-todo-insert (keyword)
