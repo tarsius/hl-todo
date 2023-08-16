@@ -197,9 +197,12 @@ including alphanumeric characters, cannot be used here."
 (defvar-local hl-todo--keywords nil)
 
 (defun hl-todo--regexp ()
+  "Return regular expression matching TODO or similar keyword."
   (or hl-todo--regexp (hl-todo--setup-regexp)))
 
 (defun hl-todo--setup-regexp ()
+  "Setup keyword regular expression.
+See the function `hl-todo--regexp'."
   (when-let ((bomb (assoc "???" hl-todo-keyword-faces)))
     ;; If the user customized this variable before we started to
     ;; treat the strings as regexps, then the string "???" might
@@ -227,6 +230,9 @@ including alphanumeric characters, cannot be used here."
 (defvar syntax-ppss-table) ; Silence Emacs 25's byte-compiler.
 
 (defun hl-todo--search (&optional regexp bound backward)
+  "Search for keyword REGEXP, optionally up to BOUND and BACKWARD.
+If REGEXP is not given, it defaults to the return value of the
+function `hl-todo--regexp'."
   (unless regexp
     (setq regexp hl-todo--regexp))
   (cl-block nil
@@ -242,9 +248,11 @@ including alphanumeric characters, cannot be used here."
              (cl-return nil))))))
 
 (defun hl-todo--inside-comment-or-string-p ()
+  "Check syntax state if point is located inside comment or string literal."
   (nth 8 (syntax-ppss)))
 
 (defun hl-todo--get-face ()
+  "Return face for current keyword during font locking."
   (let ((keyword (match-string 2)))
     (hl-todo--combine-face
      (cdr (or
@@ -255,12 +263,14 @@ including alphanumeric characters, cannot be used here."
                         (lambda (a b)
                           (string-match-p (format "\\`%s\\'" a) b))))))))
 
-(defun hl-todo--combine-face (face)
-  (if (stringp face)
+(defun hl-todo--combine-face (color)
+  "Combine COLOR string with `hl-todo' default face.
+If COLOR is a face symbol, do not combine, return COLOR instead."
+  (if (stringp color)
       `((,(if hl-todo-color-background :background :foreground)
-         ,face)
+         ,color)
         hl-todo)
-    face))
+    color))
 
 (defvar-keymap hl-todo-mode-map
   :doc "Keymap for `hl-todo-mode'.")
@@ -282,6 +292,8 @@ including alphanumeric characters, cannot be used here."
   hl-todo-mode hl-todo--turn-on-mode-if-desired)
 
 (defun hl-todo--turn-on-mode-if-desired ()
+  "Enable local minor mode `hl-todo-mode' if test succeeds.
+Depends on `hl-todo-include-modes' and `hl-todo-exclude-modes'."
   (when (and (apply #'derived-mode-p hl-todo-include-modes)
              (not (apply #'derived-mode-p hl-todo-exclude-modes))
              (not (bound-and-true-p enriched-mode)))
@@ -418,7 +430,8 @@ enabling `flymake-mode'."
 If point is not inside a string or comment, then insert a new
 comment.  If point is at the end of the line, then insert the
 comment there, otherwise insert it as a new line before the
-current line."
+current line.  When called interactively the KEYWORD is read via
+`completing-read'."
   (interactive
    (list (completing-read
           "Insert keyword: "
