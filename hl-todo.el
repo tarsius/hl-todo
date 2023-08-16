@@ -248,10 +248,13 @@ including alphanumeric characters, cannot be used here."
 (defun hl-todo--get-face ()
   (let ((keyword (match-string 2)))
     (hl-todo--combine-face
-     (cdr (cl-find-if (lambda (elt)
-                        (string-match-p (format "\\`%s\\'" (car elt))
-                                        keyword))
-                      hl-todo-keyword-faces)))))
+     (cdr (or
+           ;; Fast allocation free lookup for literal keywords
+           (assoc keyword hl-todo-keyword-faces)
+           ;; Slower regexp lookup
+           (compat-call assoc keyword hl-todo-keyword-faces
+                        (lambda (a b)
+                          (string-match-p (format "\\`%s\\'" a) b))))))))
 
 (defun hl-todo--combine-face (face)
   (if (stringp face)
