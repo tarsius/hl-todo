@@ -50,10 +50,9 @@
 
 ;;; Code:
 
-(require 'cl-lib)
 (require 'compat)
-
 (eval-when-compile (require 'subr-x))
+(eval-when-compile (require 'cl-lib))
 
 (defvar grep-find-template)
 (declare-function grep-read-files "grep" (regexp))
@@ -423,11 +422,11 @@ current line."
   (interactive
    (list (completing-read
           "Insert keyword: "
-          (cl-mapcan (pcase-lambda (`(,keyword . ,face))
-                       (and (equal (regexp-quote keyword) keyword)
-                            (list (propertize keyword 'face
-                                              (hl-todo--combine-face face)))))
-                     hl-todo-keyword-faces))))
+          (mapcan (pcase-lambda (`(,keyword . ,face))
+                    (and (equal (regexp-quote keyword) keyword)
+                         (list (propertize keyword 'face
+                                           (hl-todo--combine-face face)))))
+                  hl-todo-keyword-faces))))
   (cond
    ((hl-todo--inside-comment-or-string-p)
     (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
