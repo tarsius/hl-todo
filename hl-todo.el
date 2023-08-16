@@ -44,10 +44,6 @@
 ;;   (keymap-set hl-todo-mode-map "C-c o" #'hl-todo-occur)
 ;;   (keymap-set hl-todo-mode-map "C-c i" #'hl-todo-insert)
 
-;; See [[https://www.emacswiki.org/emacs/FixmeMode][this list]] on the Emacswiki for other packages that implement
-;; the same basic features, but which might also provide additional
-;; features that you might like, but which I don't deem necessary.
-
 ;;; Code:
 
 (require 'compat)
