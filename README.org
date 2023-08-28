@@ -28,7 +28,19 @@ commands, then you should bind them in ~hl-todo-mode-map~, e.g.:
   (keymap-set hl-todo-mode-map "C-c i" #'hl-todo-insert)
 #+end_src
 
+*** FAQ and Common Issues
+
 See [[https://github.com/tarsius/hl-todo/wiki][FAQ and Common Issues]] if something isn't working as expected.
+
+*** Integrations
+
+- Command ~hl-todo-occur~ uses ~occur~ to list TODO keywords.
+- Command ~hl-todo-rgrep~ uses ~rgrep~ to list TODO keywords.
+- Function ~hl-todo-flymake~ teaches [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Flymake.html][flymake]] about TODO keywords.
+- Package [[https://github.com/alvarogonzalezsotillo/flycheck-hl-todo][flycheck-hl-todo]] adds TODO keywords to [[https://github.com/flycheck/flycheck][flycheck]].
+- Package [[https://github.com/alphapapa/magit-todos][magit-todos]] displays TODO keybords in [[https://github.com/magit/magit][magit]]'s status buffer.
+- Package [[https://github.com/liuyinz/consult-todo][consult-todo]] supports searching and jumping to TODO keywords
+  using [[https://github.com/minad/consult][consult]].
 
 #+html: <br><br>
 #+html: <a href="https://github.com/tarsius/hl-todo/actions/workflows/compile.yml"><img alt="Compile" src="https://github.com/tarsius/hl-todo/actions/workflows/compile.yml/badge.svg"/></a>
