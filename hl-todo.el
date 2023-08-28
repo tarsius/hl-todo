@@ -214,12 +214,6 @@ See the function `hl-todo--regexp'."
                              (if hl-todo-require-punctuation "+" "*")))
                 "\\)")))
 
-(defun hl-todo--setup ()
-  (setq hl-todo--keywords
-        `((,(lambda (bound) (hl-todo--search nil bound))
-           (1 (hl-todo--get-face) prepend t))))
-  (font-lock-add-keywords nil hl-todo--keywords t))
-
 (defvar hl-todo--syntax-table (copy-syntax-table text-mode-syntax-table))
 
 (defvar syntax-ppss-table) ; Silence Emacs 25's byte-compiler.
@@ -277,7 +271,11 @@ If COLOR is a face symbol, do not combine, return COLOR instead."
   :keymap hl-todo-mode-map
   :group 'hl-todo
   (if hl-todo-mode
-      (hl-todo--setup)
+      (progn
+        (setq hl-todo--keywords
+              `((,(lambda (bound) (hl-todo--search nil bound))
+                 (1 (hl-todo--get-face) prepend t))))
+        (font-lock-add-keywords nil hl-todo--keywords t))
     (font-lock-remove-keywords nil hl-todo--keywords))
   (when font-lock-mode
     (jit-lock-mode 1)))
