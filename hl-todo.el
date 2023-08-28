@@ -189,8 +189,11 @@ including alphanumeric characters, cannot be used here."
   :group 'hl-todo
   :type 'boolean)
 
+(defvar hl-todo--keywords
+  `((,(lambda (bound) (hl-todo--search nil bound))
+     (1 (hl-todo--get-face) prepend t))))
+
 (defvar-local hl-todo--regexp nil)
-(defvar-local hl-todo--keywords nil)
 
 (defsubst hl-todo--regexp ()
   "Return regular expression matching TODO or similar keyword."
@@ -271,11 +274,7 @@ If COLOR is a face symbol, do not combine, return COLOR instead."
   :keymap hl-todo-mode-map
   :group 'hl-todo
   (if hl-todo-mode
-      (progn
-        (setq hl-todo--keywords
-              `((,(lambda (bound) (hl-todo--search nil bound))
-                 (1 (hl-todo--get-face) prepend t))))
-        (font-lock-add-keywords nil hl-todo--keywords t))
+      (font-lock-add-keywords nil hl-todo--keywords t)
     (font-lock-remove-keywords nil hl-todo--keywords))
   (when font-lock-mode
     (jit-lock-mode 1)))
