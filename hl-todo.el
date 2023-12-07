@@ -70,14 +70,14 @@ foreground color."
 (define-obsolete-variable-alias 'hl-todo-activate-in-modes
   'hl-todo-include-modes "hl-todo 3.1.0")
 
-(defcustom hl-todo-include-modes '(prog-mode text-mode)
+(defcustom hl-todo-include-modes '(prog-mode text-mode conf-mode)
   "Major-modes in which `hl-todo-mode' is activated.
 
 This is used by `global-hl-todo-mode', which activates the local
 `hl-todo-mode' in all buffers whose major-mode derive from one
 of the modes listed here, but not from one of the modes listed
 in `hl-todo-exclude-modes'."
-  :package-version '(hl-todo . "2.1.0")
+  :package-version '(hl-todo . "3.7.0")
   :group 'hl-todo
   :type '(repeat function))
 
