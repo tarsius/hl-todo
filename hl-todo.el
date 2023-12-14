@@ -147,7 +147,16 @@ a Grep implementation other than GNU's, then that may break
   :type '(repeat (cons (string :tag "Keyword")
                        (choice :tag "Face   "
                                (string :tag "Color")
-                               (sexp :tag "Face")))))
+                               (sexp :tag "Face"))))
+  :set (lambda (symbol value)
+         (set-default-toplevel-value symbol value)
+         (dolist (buf (buffer-list))
+	   (with-current-buffer buf
+             (when (and (bound-and-true-p hl-todo-mode)
+                        (boundp 'hl-todo--regexp))
+               (setq hl-todo--regexp nil)
+               (hl-todo-mode -1)
+               (hl-todo-mode 1))))))
 
 (defcustom hl-todo-color-background nil
   "Whether to emphasize keywords using the background color.
