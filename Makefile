@@ -18,8 +18,11 @@ all: lisp
 help:
 	$(info make all          - generate byte-code and autoloads)
 	$(info make lisp         - generate byte-code and autoloads)
+	$(info make redo         - re-generate byte-code and autoloads)
 	$(info make clean        - remove generated files)
 	@printf "\n"
+
+redo: clean lisp
 
 lisp: $(ELCS) loaddefs check-declare
 
