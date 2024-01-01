@@ -1,6 +1,6 @@
 ;;; hl-todo.el --- Highlight TODO and similar keywords  -*- lexical-binding:t -*-
 
-;; Copyright (C) 2013-2023 Jonas Bernoulli
+;; Copyright (C) 2013-2024 Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/tarsius/hl-todo
