@@ -38,7 +38,7 @@ See [[https://github.com/tarsius/hl-todo/wiki][FAQ and Common Issues]] if someth
 - Command ~hl-todo-rgrep~ uses ~rgrep~ to list TODO keywords.
 - Function ~hl-todo-flymake~ teaches [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Flymake.html][flymake]] about TODO keywords.
 - Package [[https://github.com/alvarogonzalezsotillo/flycheck-hl-todo][flycheck-hl-todo]] adds TODO keywords to [[https://github.com/flycheck/flycheck][flycheck]].
-- Package [[https://github.com/alphapapa/magit-todos][magit-todos]] displays TODO keybords in [[https://github.com/magit/magit][magit]]'s status buffer.
+- Package [[https://github.com/alphapapa/magit-todos][magit-todos]] displays TODO keyboards in [[https://github.com/magit/magit][magit]]'s status buffer.
 - Package [[https://github.com/liuyinz/consult-todo][consult-todo]] supports searching and jumping to TODO keywords
   using [[https://github.com/minad/consult][consult]].
 
