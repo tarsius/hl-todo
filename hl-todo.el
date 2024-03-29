@@ -258,9 +258,9 @@ function `hl-todo--regexp'."
   (let ((keyword (match-string 2)))
     (hl-todo--combine-face
      (cdr (or
-           ;; Fast allocation free lookup for literal keywords
+           ;; Fast allocation free lookup for literal keywords.
            (assoc keyword hl-todo-keyword-faces)
-           ;; Slower regexp lookup
+           ;; Slower regexp lookup.
            (compat-call assoc keyword hl-todo-keyword-faces
                         (lambda (a b)
                           (string-match-p (format "\\`%s\\'" a) b))))))))
@@ -408,16 +408,16 @@ enabling `flymake-mode'."
               (let ((beg (match-beginning 0))
                     (end (pos-eol))
                     (bol (pos-bol)))
-                ;; Take whole line when keyword is not at the start of comment
+                ;; Take whole line when keyword is not at the start of comment.
                 (save-excursion
                   (goto-char beg)
                   (unless (looking-back comment bol)
                     (goto-char bol)
-                    ;; Skip whitespace at the beginning of line
+                    ;; Skip whitespace at the beginning of line.
                     (when (and (not (looking-at-p "\\S-"))
                                (re-search-forward "\\S-" beg t))
                       (forward-char -1))
-                    ;; Skip comment
+                    ;; Skip comment.
                     (re-search-forward comment beg t)
                     (setq beg (point))))
                 (push (flymake-make-diagnostic
