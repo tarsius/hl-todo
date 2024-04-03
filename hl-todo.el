@@ -2,6 +2,7 @@
 
 ;; Copyright (C) 2013-2024 Jonas Bernoulli
 
+;; Version: 3.6.0
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/tarsius/hl-todo
 ;; Keywords: convenience
