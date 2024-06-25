@@ -67,9 +67,6 @@ color specified using the option `hl-todo-keyword-faces' as
 foreground color."
   :group 'hl-todo)
 
-(define-obsolete-variable-alias 'hl-todo-activate-in-modes
-  'hl-todo-include-modes "hl-todo 3.1.0")
-
 (defcustom hl-todo-include-modes '(prog-mode text-mode conf-mode)
   "Major-modes in which `hl-todo-mode' is activated.
 
@@ -471,9 +468,6 @@ then append that character to the inserted string."
       (unless (looking-at "[\s\t]*$")
         (save-excursion (insert "\n")))
       (indent-region (line-beginning-position) (line-end-position))))))
-
-(define-obsolete-function-alias 'hl-todo-insert-keyword
-  #'hl-todo-insert "hl-todo 3.0.0")
 
 ;;; _
 (provide 'hl-todo)
