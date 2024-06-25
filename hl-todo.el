@@ -6,7 +6,7 @@
 ;; Homepage: https://github.com/tarsius/hl-todo
 ;; Keywords: convenience
 
-;; Package-Requires: ((emacs "25.1") (compat "29.1.4.5"))
+;; Package-Requires: ((emacs "26.1") (compat "29.1.4.5"))
 
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -225,8 +225,6 @@ See the function `hl-todo--regexp'."
                 "\\)")))
 
 (defvar hl-todo--syntax-table (copy-syntax-table text-mode-syntax-table))
-
-(defvar syntax-ppss-table) ; Silence Emacs 25's byte-compiler.
 
 (defun hl-todo--search (&optional regexp bound backward)
   "Search for keyword REGEXP, optionally up to BOUND and BACKWARD.
