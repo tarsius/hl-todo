@@ -294,7 +294,8 @@ If COLOR is a face symbol, do not combine, return COLOR instead."
 Depends on `hl-todo-include-modes' and `hl-todo-exclude-modes'."
   (when (and (apply #'derived-mode-p hl-todo-include-modes)
              (not (apply #'derived-mode-p hl-todo-exclude-modes))
-             (not (bound-and-true-p enriched-mode)))
+             (not (bound-and-true-p enriched-mode))
+             (not (string-prefix-p " *temp*" (buffer-name))))
     (hl-todo-mode 1)))
 
 ;;;###autoload
