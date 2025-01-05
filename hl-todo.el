@@ -469,18 +469,17 @@ then append that character to the inserted string."
         (save-excursion (insert "\n")))
       (indent-region (line-beginning-position) (line-end-position))))))
 
-(defun hl-todo-magit-revision ()
-  "Highlight TODO and similar keywords in commit messages and notes.
-If `global-hl-todo-mode' is disabled, do nothing."
-  (when global-hl-todo-mode
-    (let ((case-fold-search nil)
-          (regexp (hl-todo--regexp)))
-      (while (re-search-forward regexp nil t)
-        (put-text-property (match-beginning 1)
-                           (match-end 1)
-                           'font-lock-face (hl-todo--get-face))))))
-
-(add-hook 'magit-wash-message-hook #'hl-todo-magit-revision)
+;;;###autoload
+(defun hl-todo-search-and-highlight ()
+  "Highlight TODO and similar keywords starting at point.
+Intended to be added to `magit-revision-wash-message-hook' and
+`magit-log-wash-summary-hook', but might be useful elsewhere too."
+  (let ((case-fold-search nil)
+        (regexp (hl-todo--regexp)))
+    (while (re-search-forward regexp nil t)
+      (put-text-property (match-beginning 1)
+                         (match-end 1)
+                         'font-lock-face (hl-todo--get-face)))))
 
 ;;; _
 (provide 'hl-todo)

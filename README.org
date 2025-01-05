@@ -41,6 +41,15 @@ See [[https://github.com/tarsius/hl-todo/wiki][FAQ and Common Issues]] if someth
 - Package [[https://github.com/alphapapa/magit-todos][magit-todos]] displays TODO keyboards in [[https://github.com/magit/magit][magit]]'s status buffer.
 - Package [[https://github.com/liuyinz/consult-todo][consult-todo]] supports searching and jumping to TODO keywords
   using [[https://github.com/minad/consult][consult]].
+- To highlight TODO keywords in Magit use:
+  #+begin_src emacs-lisp
+    (with-eval-after-load 'magit
+      (add-hook 'magit-log-wash-summary-hook
+                #'hl-todo-search-and-highlight t)
+      (add-hook 'magit-revision-wash-message-hook
+                #'hl-todo-search-and-highlight t))
+  #+end_src
+
 
 #+html: <br><br>
 #+html: <a href="https://github.com/tarsius/hl-todo/actions/workflows/compile.yml"><img alt="Compile" src="https://github.com/tarsius/hl-todo/actions/workflows/compile.yml/badge.svg"/></a>
