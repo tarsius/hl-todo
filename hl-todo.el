@@ -418,9 +418,10 @@ enabling `flymake-mode'."
                     (re-search-forward comment beg t)
                     (setq beg (point))))
                 (push (flymake-make-diagnostic
-                       buf beg end :note
+                       buf beg end 'hl-todo-flymake
                        (buffer-substring-no-properties beg end))
                       diags)))))))
+    (put 'hl-todo-flymake 'flymake-category 'flymake-note)
     (funcall report-fn (nreverse diags))))
 
 ;;;###autoload
