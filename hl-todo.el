@@ -157,6 +157,12 @@ a Grep implementation other than GNU's, then that may break
                (hl-todo-mode -1)
                (hl-todo-mode 1))))))
 
+(defface hl-todo-flymake-type '((t :inherit font-lock-keyword-face))
+  "Face used for the Flymake diagnostics type `hl-todo-flymake'.
+This is used for the word \"todo\" appearing in the \"Type\" column
+of buffers created by `flymake-show-buffer-diagnostics' and similar."
+  :group 'hl-todo)
+
 (defcustom hl-todo-color-background nil
   "Whether to emphasize keywords using the background color.
 
@@ -418,10 +424,20 @@ enabling `flymake-mode'."
                     (re-search-forward comment beg t)
                     (setq beg (point))))
                 (push (flymake-make-diagnostic
-                       buf beg end :note
+                       buf beg end 'hl-todo-flymake
                        (buffer-substring-no-properties beg end))
                       diags)))))))
     (funcall report-fn (nreverse diags))))
+
+(put 'hl-todo-flymake 'flymake-category 'flymake-note)
+(put 'hl-todo-flymake 'flymake-type-name "todo")
+;; Do not underline lines containing TODO keyword.
+(put 'hl-todo-flymake 'face nil)
+;; As of Emacs 30.0.50, we have to set this property to control
+;; the face that is used *inside* the list buffer.  This face
+;; is *not* used in the mode-line (where the respective face of
+;; the `flymake-note' category is used instead).
+(put 'hl-todo-flymake 'mode-line-face 'hl-todo-flymake-type)
 
 ;;;###autoload
 (defun hl-todo-insert (keyword)
