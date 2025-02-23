@@ -408,7 +408,8 @@ enabling `flymake-mode'."
           (save-match-data
             (goto-char (point-min))
             (while (hl-todo--search)
-              (let ((beg (match-beginning 0))
+              (let ((keyword (match-string 1))
+                    (beg (match-beginning 0))
                     (end (pos-eol))
                     (bol (pos-bol)))
                 ;; Take whole line when keyword is not at the start of comment.
@@ -423,12 +424,15 @@ enabling `flymake-mode'."
                     ;; Skip comment.
                     (re-search-forward comment beg t)
                     (setq beg (point))))
-                (push (flymake-make-diagnostic
-                       buf beg end 'hl-todo-flymake
-                       (buffer-substring-no-properties beg end))
+                (push (hl-todo-make-flymake-diagnostic
+                       buf beg end (buffer-substring-no-properties beg end)
+                       keyword)
                       diags)))))))
     (funcall report-fn (nreverse diags))))
 
+;; Advise this function if you want multiple keyword types.
+(defun hl-todo-make-flymake-diagnostic (locus beg end text _keyword)
+  (flymake-make-diagnostic locus beg end 'hl-todo-flymake text))
 (put 'hl-todo-flymake 'flymake-category 'flymake-note)
 (put 'hl-todo-flymake 'flymake-type-name "todo")
 ;; Do not underline lines containing TODO keyword.
