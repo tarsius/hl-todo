@@ -288,8 +288,7 @@ If COLOR is a face symbol, do not combine, return COLOR instead."
   (if hl-todo-mode
       (font-lock-add-keywords nil hl-todo--keywords t)
     (font-lock-remove-keywords nil hl-todo--keywords))
-  (when font-lock-mode
-    (jit-lock-mode 1)))
+  (font-lock-flush))
 
 ;;;###autoload
 (define-globalized-minor-mode global-hl-todo-mode
