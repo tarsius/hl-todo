@@ -223,9 +223,9 @@ See the function `hl-todo--regexp'."
     ;; in the regexp search taking forever.
     (setq hl-todo-keyword-faces (delete bomb hl-todo-keyword-faces)))
   (setq hl-todo--regexp
-        (concat "\\(\\<"
+        (concat "\\(\\_<"
                 "\\(" (mapconcat #'car hl-todo-keyword-faces "\\|") "\\)"
-                "\\>"
+                "\\_>"
                 (and (not (equal hl-todo-highlight-punctuation ""))
                      (concat "[" hl-todo-highlight-punctuation "]"
                              (if hl-todo-require-punctuation "+" "*")))
