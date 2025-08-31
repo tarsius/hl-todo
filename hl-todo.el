@@ -181,6 +181,35 @@ controls which of the two it is."
   :group 'hl-todo
   :type 'boolean)
 
+(defcustom hl-todo-keyword-delimiters 'symbol
+  "Delimiters placed around the regexp used to match keywords.
+
+`symbol'
+    The part of the regexp used to match keywords is surrounded by
+    \\_< and \\_>.  This is the default.
+
+`word'
+    The part of the regexp used to match keywords is surrounded by
+    \\< and \\>.  Use this if you want the TODO in foo-TODO_bar to
+    be highlighted.
+
+`nil'
+    The part of the regexp used to match keywords is not surrounded
+    by any delimiters.  Use this if you want the TODO in fooTODObar
+    to be highlighted.
+
+If you want to prevent keyword fontification if certain characters
+appear next to them, then you have to modify `hl-todo-syntax-table'.
+For example, if you do not want the TODO in !TODO to be highlighted,
+use the symbol (`_') syntax class for the ! character.
+
+    (modify-syntax-entry ?! \"_\" hl-todo--syntax-table)"
+  :package-version '(hl-todo . "3.9.0")
+  :group 'hl-todo
+  :type '(choice (const :tag "Wrap with \\_<...\\_>" symbol)
+                 (const :tag "Wrap with \\<...\\>" word)
+                 (const :tag "No delimiters" nil)))
+
 (defcustom hl-todo-wrap-movement nil
   "Whether movement commands wrap around when there are no more matches."
   :package-version '(hl-todo . "3.4.0")
@@ -231,9 +260,16 @@ See the function `hl-todo--regexp'."
     ;; in the regexp search taking forever.
     (setq hl-todo-keyword-faces (delete bomb hl-todo-keyword-faces)))
   (setq hl-todo--regexp
-        (concat "\\(\\_<"
-                "\\(" (mapconcat #'car hl-todo-keyword-faces "\\|") "\\)"
-                "\\_>"
+        (concat "\\(?1:"
+                (pcase hl-todo-keyword-delimiters
+                  ('symbol "\\_<")
+                  ('word   "\\<")
+                  (_       ""))
+                "\\(?2:" (mapconcat #'car hl-todo-keyword-faces "\\|") "\\)"
+                (pcase hl-todo-keyword-delimiters
+                  ('symbol "\\_>")
+                  ('word    "\\>")
+                  (_           ""))
                 (and (not (equal hl-todo-highlight-punctuation ""))
                      (concat "[" hl-todo-highlight-punctuation "]"
                              (if hl-todo-require-punctuation "+" "*")))
