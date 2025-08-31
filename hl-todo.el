@@ -55,6 +55,9 @@
 (declare-function grep-read-files "grep" (regexp))
 (declare-function flymake-make-diagnostic "flymake")
 
+(define-obsolete-variable-alias 'hl-todo--syntax-table
+  'hl-todo-syntax-table "Hl-Todo 3.9.0")
+
 (defgroup hl-todo nil
   "Highlight TODO and similar keywords in comments and strings."
   :group 'font-lock-extra-types)
@@ -126,7 +129,7 @@ Instead of a color (a string), each COLOR may alternatively be a
 face.
 
 The syntax class of the characters at either end has to be `w'
-\(which means word) in `hl-todo--syntax-table' (which derives
+\(which means word) in `hl-todo-syntax-table' (which derives
 from `text-mode-syntax-table').
 
 This package, like most of Emacs, does not use POSIX regexp
@@ -203,6 +206,11 @@ including alphanumeric characters, cannot be used here."
   :group 'hl-todo
   :type 'boolean)
 
+(defvar hl-todo-syntax-table (copy-syntax-table text-mode-syntax-table)
+  "Syntax table used while searching for TODO keywords.
+This is used instead of the buffer's local syntax table and derives
+from `text-mode-syntax-table'.")
+
 (defvar hl-todo--keywords
   `((,(lambda (bound) (hl-todo--search nil bound))
      (1 (hl-todo--get-face) prepend t))))
@@ -231,8 +239,6 @@ See the function `hl-todo--regexp'."
                              (if hl-todo-require-punctuation "+" "*")))
                 "\\)")))
 
-(defvar hl-todo--syntax-table (copy-syntax-table text-mode-syntax-table))
-
 (defun hl-todo--search (&optional regexp bound backward)
   "Search for keyword REGEXP, optionally up to BOUND and BACKWARD.
 If REGEXP is not given, it defaults to the return value of the
@@ -242,7 +248,7 @@ function `hl-todo--regexp'."
   (cl-block nil
     (while (let ((case-fold-search nil)
                  (syntax-ppss-table (syntax-table)))
-             (with-syntax-table hl-todo--syntax-table
+             (with-syntax-table hl-todo-syntax-table
                (funcall (if backward #'re-search-backward #'re-search-forward)
                         regexp bound t)))
       (cond ((or (apply #'derived-mode-p hl-todo-text-modes)
@@ -365,7 +371,7 @@ because it uses a regexp instead of a more sophisticated
 matcher.  It also finds occurrences that are not within a
 string or comment."
   (interactive)
-  (with-syntax-table hl-todo--syntax-table
+  (with-syntax-table hl-todo-syntax-table
     (occur (hl-todo--regexp))))
 
 ;;;###autoload
