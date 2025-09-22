@@ -198,6 +198,9 @@ controls which of the two it is."
     by any delimiters.  Use this if you want the TODO in fooTODObar
     to be highlighted.
 
+`hl-todo-rgrep' uses \\< and \\> for `symbol' as well, because grep
+does not support \\_< and \\_>.
+
 If you want to prevent keyword fontification if certain characters
 appear next to them, then you have to modify `hl-todo-syntax-table'.
 For example, if you do not want the TODO in !TODO to be highlighted,
@@ -246,11 +249,11 @@ from `text-mode-syntax-table'.")
 
 (defvar-local hl-todo--regexp nil)
 
-(defsubst hl-todo--regexp ()
+(defsubst hl-todo--regexp (&optional no-symbol)
   "Return regular expression matching TODO or similar keyword."
-  (or hl-todo--regexp (hl-todo--setup-regexp)))
+  (or hl-todo--regexp (hl-todo--setup-regexp no-symbol)))
 
-(defun hl-todo--setup-regexp ()
+(defun hl-todo--setup-regexp (&optional no-symbol)
   "Setup keyword regular expression.
 See the function `hl-todo--regexp'."
   (when-let ((bomb (assoc "???" hl-todo-keyword-faces)))
@@ -260,16 +263,16 @@ See the function `hl-todo--regexp'."
     ;; in the regexp search taking forever.
     (setq hl-todo-keyword-faces (delete bomb hl-todo-keyword-faces)))
   (setq hl-todo--regexp
-        (concat "\\(?1:"
+        (concat "\\("
                 (pcase hl-todo-keyword-delimiters
-                  ('symbol "\\_<")
+                  ('symbol (if no-symbol "\\<" "\\_<"))
                   ('word   "\\<")
                   (_       ""))
-                "\\(?2:" (mapconcat #'car hl-todo-keyword-faces "\\|") "\\)"
+                "\\(" (mapconcat #'car hl-todo-keyword-faces "\\|") "\\)"
                 (pcase hl-todo-keyword-delimiters
-                  ('symbol "\\_>")
-                  ('word    "\\>")
-                  (_           ""))
+                  ('symbol (if no-symbol "\\>" "\\_>"))
+                  ('word   "\\>")
+                  (_       ""))
                 (and (not (equal hl-todo-highlight-punctuation ""))
                      (concat "[" hl-todo-highlight-punctuation "]"
                              (if hl-todo-require-punctuation "+" "*")))
@@ -427,7 +430,7 @@ Also see option `hl-todo-keyword-faces'."
      (grep-compute-defaults)
      (unless grep-find-template
        (error "grep.el: No `grep-find-template' available"))
-     (let ((regexp (with-temp-buffer (hl-todo--regexp))))
+     (let ((regexp (with-temp-buffer (hl-todo--regexp t))))
        (list regexp
              (grep-read-files regexp)
              (read-directory-name "Base directory: " nil default-directory t)
