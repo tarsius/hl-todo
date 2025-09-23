@@ -275,7 +275,9 @@ See the function `hl-todo--regexp'."
                   (_       ""))
                 (and (not (equal hl-todo-highlight-punctuation ""))
                      (concat "[" hl-todo-highlight-punctuation "]"
-                             (if hl-todo-require-punctuation "+" "*")))
+                             (if hl-todo-require-punctuation
+                                 (if no-symbol "\\+" "+")
+                               "*")))
                 "\\)")))
 
 (defun hl-todo--search (&optional regexp bound backward)
