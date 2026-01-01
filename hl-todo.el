@@ -517,25 +517,25 @@ then append that character to the inserted string."
                      (concat keyword hl-todo-highlight-punctuation)
                    keyword)))
     (cond
-     ((hl-todo--inside-comment-or-string-p)
-      (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
-                      keyword
-                      (and (not (memq (char-after) '(?\s ?\t ?\n))) " "))))
-     ((and (eolp)
-           (not (looking-back "^[\s\t]*" (line-beginning-position) t)))
-      (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
-                      (format "%s %s " comment-start keyword))))
-     (t
-      (goto-char (line-beginning-position))
-      (insert (cond ((derived-mode-p 'lisp-mode 'emacs-lisp-mode)
-                     (format "%s%s %s" comment-start comment-start keyword))
-                    ((string-suffix-p " " comment-start)
-                     (format "%s%s" comment-start keyword))
-                    (t
-                     (format "%s %s" comment-start keyword))))
-      (unless (looking-at "[\s\t]*$")
-        (save-excursion (insert "\n")))
-      (indent-region (line-beginning-position) (line-end-position))))))
+      ((hl-todo--inside-comment-or-string-p)
+       (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
+                       keyword
+                       (and (not (memq (char-after) '(?\s ?\t ?\n))) " "))))
+      ((and (eolp)
+            (not (looking-back "^[\s\t]*" (line-beginning-position) t)))
+       (insert (concat (and (not (memq (char-before) '(?\s ?\t))) " ")
+                       (format "%s %s " comment-start keyword))))
+      (t
+       (goto-char (line-beginning-position))
+       (insert (cond ((derived-mode-p 'lisp-mode 'emacs-lisp-mode)
+                      (format "%s%s %s" comment-start comment-start keyword))
+                     ((string-suffix-p " " comment-start)
+                      (format "%s%s" comment-start keyword))
+                     (t
+                      (format "%s %s" comment-start keyword))))
+       (unless (looking-at "[\s\t]*$")
+         (save-excursion (insert "\n")))
+       (indent-region (line-beginning-position) (line-end-position))))))
 
 ;;;###autoload
 (defun hl-todo-search-and-highlight ()
@@ -553,5 +553,6 @@ Intended to be added to `magit-revision-wash-message-hook' and
 (provide 'hl-todo)
 ;; Local Variables:
 ;; indent-tabs-mode: nil
+;; lisp-indent-local-overrides: ((cond . 0))
 ;; End:
 ;;; hl-todo.el ends here
