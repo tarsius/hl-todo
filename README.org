@@ -55,3 +55,4 @@ See [[https://github.com/tarsius/hl-todo/wiki][FAQ and Common Issues]] if someth
 #+html: <a href="https://github.com/tarsius/hl-todo/actions/workflows/compile.yml"><img alt="Compile" src="https://github.com/tarsius/hl-todo/actions/workflows/compile.yml/badge.svg"/></a>
 #+html: <a href="https://snapshots.melpa.org/#/hl-todo"><img alt="MELPA Snapshots" src="https://snapshots.melpa.org/packages/hl-todo-badge.svg"/></a>
 #+html: <a href="https://releases.melpa.org/#/hl-todo"><img alt="MELPA Releases" src="https://releases.melpa.org/packages/hl-todo-badge.svg"/></a>
+#+html: <a href="https://emacsair.me/human"><img alt="human made" src="https://emacsair.me/assets/badges/human.svg"/></a>
